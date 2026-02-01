@@ -1,0 +1,190 @@
+.jardin {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--spacing-lg);
+  padding-top: var(--spacing-xl);
+  padding-bottom: var(--spacing-3xl);
+}
+
+.jardin__container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.jardin__header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.jardin__title {
+  font-size: var(--font-size-3xl);
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-sm);
+}
+
+.jardin__subtitle {
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+.jardin__current-user {
+  margin-bottom: var(--spacing-xl);
+  background: linear-gradient(135deg, rgba(107, 58, 30, 0.05) 0%, rgba(107, 58, 30, 0.02) 100%);
+}
+
+.jardin__current-user-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.jardin__current-user-info {
+  flex: 1;
+}
+
+.jardin__current-user-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.jardin__current-user-name {
+  font-size: var(--font-size-xl);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.jardin__current-user-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--spacing-sm);
+}
+
+.jardin__flores-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.jardin__flores-count {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+}
+
+.jardin__flores-icon {
+  font-size: var(--font-size-xl);
+}
+
+.jardin__list-header {
+  margin-bottom: var(--spacing-lg);
+}
+
+.jardin__list-title {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.jardin__list-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.jardin__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.jardin__entry {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  transition: all var(--transition-fast);
+}
+
+.jardin__entry:hover {
+  transform: translateX(4px);
+}
+
+.jardin__entry-rank {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.jardin__medal {
+  font-size: var(--font-size-2xl);
+}
+
+.jardin__rank-number {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+}
+
+.jardin__entry-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.jardin__entry-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.jardin__entry-badge-text {
+  display: inline-block;
+  margin-top: var(--spacing-xs);
+  font-size: var(--font-size-xs);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.jardin__entry-flores {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  flex-shrink: 0;
+}
+
+.jardin__entry-flores-count {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+}
+
+.jardin__entry-flores-icon {
+  font-size: var(--font-size-base);
+}
+
+.jardin__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-2xl);
+}
+
+.jardin__loading,
+.jardin__error {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-secondary);
+}
+
+.jardin__error {
+  color: var(--color-error);
+  margin-bottom: var(--spacing-lg);
+}
