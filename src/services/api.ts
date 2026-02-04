@@ -55,7 +55,8 @@ class ApiClient {
         const error = await response.json().catch(() => ({
           message: 'Error en la solicitud',
         }));
-        throw new Error(error.message || `Error ${response.status}`);
+        // Incluir código de estado en el error para manejar 401 específicamente
+        throw new Error(`${response.status}: ${error.message || `Error ${response.status}`}`);
       }
 
       return await response.json();

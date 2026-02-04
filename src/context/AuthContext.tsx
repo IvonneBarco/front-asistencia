@@ -46,9 +46,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const userData = await apiClient.getCurrentUser();
       setUser(userData);
     } catch (error) {
-      // Si falla, limpiar el token inválido
-      localStorage.removeItem('auth_token');
-      setUser(null);
+      // Solo cerrar sesión si es error 401 (no autorizado)
+      // Mantener token en otros errores (red, timeout, etc.)
+      if (error instanceof Error && error.message.includes('401')) {
+        localStorage.removeItem('auth_token');
+        setUser(null);
+      } else {
+        // Error temporal de red - mantener sesión
+        console.warn('Error temporal al cargar usuario, manteniendo sesión:', error);
+        // Intentar recuperar usuario del localStorage si existe
+        const savedUser = localStorage.getItem('user_data');
+        if (savedUser) {
+          try {
+            setUser(JSON.parse(savedUser));
+          } catch {
+            localStorage.removeItem('auth_token');
+            setUser(null);
+          }
+        } else {
+          localStorage.removeItem('auth_token');
+          setUser(null);
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -58,6 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response = await apiClient.login(credentials);
       localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('user_data', JSON.stringify(response.user));
       setUser(response.user);
       // Invalidar cache para refrescar datos del nuevo usuario
       queryClient.invalidateQueries({ queryKey: ['leaderboard'] });
@@ -69,6 +89,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_data');
     setUser(null);
     // Limpiar cache al cerrar sesión
     queryClient.clear();
