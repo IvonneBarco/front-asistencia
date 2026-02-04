@@ -45,6 +45,37 @@
   line-height: var(--line-height-relaxed);
 }
 
+.login__tabs {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-bottom: var(--spacing-md);
+}
+
+.login__tab {
+  flex: 1;
+  padding: var(--spacing-md);
+  border: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.login__tab:hover {
+  background: rgba(107, 58, 30, 0.05);
+  color: var(--color-primary);
+}
+
+.login__tab--active {
+  background: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
 .login__form {
   display: flex;
   flex-direction: column;

@@ -16,6 +16,10 @@ export interface LoginRequest {
   pin: string;
 }
 
+export interface LoginIdentificationRequest {
+  identification: string;
+}
+
 export interface LoginResponse {
   token: string;
   user: User;
@@ -98,8 +102,7 @@ export interface DeactivateSessionResponse {
 // Bulk user creation types
 export interface BulkUserInput {
   name: string;
-  email: string;
-  pin: string;
+  identification: string;
   role: 'user' | 'admin';
 }
 
@@ -108,22 +111,22 @@ export interface BulkUsersRequest {
 }
 
 export interface BulkUsersResponse {
-  created: Array<{ email: string; name: string }>;
-  updated: Array<{ email: string; name: string }>;
-  errors: Array<{ email: string; name: string; error: string }>;
+  created: Array<{ identification: string; name: string }>;
+  updated: Array<{ identification: string; name: string }>;
+  errors: Array<{ identification: string; name: string; error: string }>;
   total: number;
 }
 
 // CSV import types
 export interface CSVImportError {
-  email: string;
+  identification: string;
   name: string;
   error: string;
 }
 
 export interface CSVImportResponse {
-  created: Array<{ email: string; name: string }>;
-  updated: Array<{ email: string; name: string }>;
+  created: Array<{ identification: string; name: string }>;
+  updated: Array<{ identification: string; name: string }>;
   errors: CSVImportError[];
   total: number;
 }

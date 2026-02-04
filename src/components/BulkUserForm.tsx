@@ -13,11 +13,11 @@ export const BulkUserForm: React.FC<BulkUserFormProps> = ({
   isLoading,
 }) => {
   const [users, setUsers] = useState<BulkUserInput[]>([
-    { name: '', email: '', pin: '', role: 'user' },
+    { name: '', identification: '', role: 'user' },
   ]);
 
   const handleAddUser = () => {
-    setUsers([...users, { name: '', email: '', pin: '', role: 'user' }]);
+    setUsers([...users, { name: '', identification: '', role: 'user' }]);
   };
 
   const handleRemoveUser = (index: number) => {
@@ -37,14 +37,14 @@ export const BulkUserForm: React.FC<BulkUserFormProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const validUsers = users.filter(
-      (u) => u.name && u.email && u.pin && u.role
+      (u) => u.name && u.identification && u.role
     );
     if (validUsers.length > 0) {
       onSubmit(validUsers);
     }
   };
 
-  const isFormValid = users.some((u) => u.name && u.email && u.pin && u.role);
+  const isFormValid = users.some((u) => u.name && u.identification && u.role);
 
   return (
     <form onSubmit={handleSubmit} className="bulk-user-form">
@@ -86,37 +86,19 @@ export const BulkUserForm: React.FC<BulkUserFormProps> = ({
               </div>
 
               <div className="bulk-user-form__field">
-                <label htmlFor={`email-${index}`} className="bulk-user-form__label">
-                  Correo electrónico
+                <label htmlFor={`identification-${index}`} className="bulk-user-form__label">
+                  Número de identificación
                 </label>
                 <input
-                  id={`email-${index}`}
-                  type="email"
-                  className="bulk-user-form__input"
-                  value={user.email}
-                  onChange={(e) =>
-                    handleUserChange(index, 'email', e.target.value)
-                  }
-                  placeholder="maria@emaus.com"
-                  required
-                />
-              </div>
-
-              <div className="bulk-user-form__field">
-                <label htmlFor={`pin-${index}`} className="bulk-user-form__label">
-                  PIN (4 dígitos)
-                </label>
-                <input
-                  id={`pin-${index}`}
+                  id={`identification-${index}`}
                   type="text"
                   className="bulk-user-form__input"
-                  value={user.pin}
+                  value={user.identification}
                   onChange={(e) =>
-                    handleUserChange(index, 'pin', e.target.value)
+                    handleUserChange(index, 'identification', e.target.value)
                   }
-                  placeholder="1234"
-                  pattern="[0-9]{4}"
-                  maxLength={4}
+                  placeholder="1085111111"
+                  inputMode="numeric"
                   required
                 />
               </div>
@@ -162,7 +144,7 @@ export const BulkUserForm: React.FC<BulkUserFormProps> = ({
           isLoading={isLoading}
           disabled={!isFormValid || isLoading}
         >
-          Crear {users.filter((u) => u.name && u.email && u.pin).length}{' '}
+          Crear {users.filter((u) => u.name && u.identification).length}{' '}
           usuario(s)
         </Button>
       </div>

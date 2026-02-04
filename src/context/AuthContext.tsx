@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import type { User, LoginRequest } from '../types';
+import type { User, LoginRequest, LoginIdentificationRequest } from '../types';
 import { apiClient } from '../services/api';
 
 interface AuthContextValue {
@@ -9,6 +9,7 @@ interface AuthContextValue {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (credentials: LoginRequest) => Promise<void>;
+  loginWithIdentification: (credentials: LoginIdentificationRequest) => Promise<void>;
   logout: () => void;
 }
 
@@ -87,6 +88,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const loginWithIdentification = async (credentials: LoginIdentificationRequest) => {
+    try {
+      const response = await apiClient.loginWithIdentification(credentials);
+      localStorage.setItem('auth_token', response.token);
+      localStorage.setItem('user_data', JSON.stringify(response.user));
+      setUser(response.user);
+      // Invalidar cache para refrescar datos del nuevo usuario
+      queryClient.invalidateQueries({ queryKey: ['leaderboard'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const logout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_data');
@@ -100,6 +115,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isLoading,
     isAuthenticated: !!user,
     login,
+    loginWithIdentification,
     logout,
   };
 

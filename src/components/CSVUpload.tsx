@@ -89,7 +89,7 @@ export const CSVUpload: React.FC<CSVUploadProps> = ({
               <span className="csv-upload__link">haz clic para seleccionar</span>
             </p>
             <p className="csv-upload__hint">
-              Formato: name, email, pin, role
+              Formato: name, identification, role
             </p>
           </label>
         ) : (
@@ -161,7 +161,7 @@ export const CSVUpload: React.FC<CSVUploadProps> = ({
               <ul className="csv-upload__list">
                 {result.created.map((user, index) => (
                   <li key={index} className="csv-upload__list-item">
-                    {user.name} ({user.email})
+                    {user.name} ({user.identification})
                   </li>
                 ))}
               </ul>
@@ -176,7 +176,7 @@ export const CSVUpload: React.FC<CSVUploadProps> = ({
               <ul className="csv-upload__list">
                 {result.errors.map((error, index) => (
                   <li key={index} className="csv-upload__list-item csv-upload__list-item--error">
-                    {error.name} ({error.email}): {error.error}
+                    {error.name} ({error.identification}): {error.error}
                   </li>
                 ))}
               </ul>

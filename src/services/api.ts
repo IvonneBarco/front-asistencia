@@ -1,5 +1,6 @@
 import type {
   LoginRequest,
+  LoginIdentificationRequest,
   LoginResponse,
   AttendanceScanRequest,
   AttendanceScanResponse,
@@ -72,6 +73,17 @@ class ApiClient {
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await this.request<ApiResponse<LoginResponse>>(
       '/auth/login',
+      {
+        method: 'POST',
+        body: JSON.stringify(credentials),
+      }
+    );
+    return response.data;
+  }
+
+  async loginWithIdentification(credentials: LoginIdentificationRequest): Promise<LoginResponse> {
+    const response = await this.request<ApiResponse<LoginResponse>>(
+      '/auth/login-identification',
       {
         method: 'POST',
         body: JSON.stringify(credentials),
