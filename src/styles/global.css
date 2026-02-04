@@ -113,6 +113,13 @@ svg {
 
 @media (min-width: 768px) {
   .container {
+    max-width: 900px;
     padding: 0 var(--spacing-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
   }
 }

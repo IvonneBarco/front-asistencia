@@ -92,4 +92,10 @@
   --z-modal: 500;
   --z-popover: 600;
   --z-tooltip: 700;
+  
+  /* Breakpoints (para referencia en media queries) */
+  --breakpoint-mobile: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1280px;
 }

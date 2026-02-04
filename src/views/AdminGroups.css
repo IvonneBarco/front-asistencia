@@ -12,6 +12,12 @@
   gap: var(--spacing-xl);
 }
 
+@media (min-width: 768px) and (max-width: 1024px) {
+  .admin-groups__container {
+    max-width: 95%;
+  }
+}
+
 .admin-groups__header {
   display: flex;
   justify-content: space-between;
