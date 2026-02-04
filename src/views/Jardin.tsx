@@ -1,16 +1,14 @@
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { useLeaderboard } from '../hooks/useApi';
 import { useAuth } from '../context/AuthContext';
-import { Card, Badge, Button } from '../components/ui';
+import { Card, Badge } from '../components/ui';
 import { TopBar } from '../components/TopBar';
 import './Jardin.css';
 
 export const Jardin: React.FC = () => {
-  const navigate = useNavigate();
   const { data, isLoading, error } = useLeaderboard();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
   const parentRef = useRef<HTMLDivElement>(null);
 
   const virtualizer = useVirtualizer({
@@ -19,11 +17,6 @@ export const Jardin: React.FC = () => {
     estimateSize: () => 88,
     overscan: 5,
   });
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   if (isLoading) {
     return (
@@ -41,9 +34,6 @@ export const Jardin: React.FC = () => {
         <div className="jardin__container">
           <Card variant="elevated" padding="lg">
             <p className="jardin__error">Error al cargar el jardín</p>
-            <Button variant="secondary" fullWidth onClick={() => navigate('/scanner')}>
-              Volver
-            </Button>
           </Card>
         </div>
       </div>
@@ -88,16 +78,6 @@ export const Jardin: React.FC = () => {
             </div>
           </Card>
         )}
-
-        <Button
-          variant="primary"
-          size="lg"
-          fullWidth
-          onClick={() => navigate('/scanner')}
-          className="jardin__cta-button"
-        >
-          Registrar Asistencia
-        </Button>
 
         <div className="jardin__list-header">
           <h3 className="jardin__list-title">Orden de Flores</h3>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useCreateBulkUsers, useUploadUsersCSV } from '../hooks/useApi';
-import { Card, Button, Badge } from '../components/ui';
+import { Card } from '../components/ui';
 import { BulkUserForm } from '../components/BulkUserForm';
 import { CSVUpload } from '../components/CSVUpload';
 import { TopBar } from '../components/TopBar';
@@ -11,7 +10,6 @@ import './AdminUsers.css';
 type TabType = 'form' | 'csv';
 
 export const AdminUsers: React.FC = () => {
-  const navigate = useNavigate();
   const createBulkUsers = useCreateBulkUsers();
   const uploadCSV = useUploadUsersCSV();
   const [activeTab, setActiveTab] = useState<TabType>('form');

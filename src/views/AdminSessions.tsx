@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   useSessions,
   useCreateSession,
@@ -13,7 +12,6 @@ import type { CreateSessionRequest, CreateSessionResponse } from '../types';
 import './AdminSessions.css';
 
 export const AdminSessions: React.FC = () => {
-  const navigate = useNavigate();
   const { data: sessions, isLoading, error } = useSessions();
   const createSession = useCreateSession();
   const deactivateSession = useDeactivateSession();
