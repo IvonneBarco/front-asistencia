@@ -47,4 +47,7 @@
 .badge--lg {
   padding: var(--spacing-sm) var(--spacing-lg);
   font-size: var(--font-size-base);
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
 }

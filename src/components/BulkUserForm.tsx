@@ -97,7 +97,7 @@ export const BulkUserForm: React.FC<BulkUserFormProps> = ({
                   onChange={(e) =>
                     handleUserChange(index, 'identification', e.target.value)
                   }
-                  placeholder="1085111111"
+                  placeholder="No. Identificación"
                   inputMode="numeric"
                   required
                 />
