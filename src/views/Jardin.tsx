@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { useLeaderboard } from '../hooks/useApi';
 import { useAuth } from '../context/AuthContext';
 import { Card, Badge, Button } from '../components/ui';
+import { TopBar } from '../components/TopBar';
 import './Jardin.css';
 
 export const Jardin: React.FC = () => {
   const navigate = useNavigate();
   const { data, isLoading, error } = useLeaderboard();
   const { user, logout } = useAuth();
+  const parentRef = useRef<HTMLDivElement>(null);
+
+  const virtualizer = useVirtualizer({
+    count: data?.entries.length || 0,
+    getScrollElement: () => parentRef.current,
+    estimateSize: () => 88,
+    overscan: 5,
+  });
 
   const handleLogout = () => {
     logout();
@@ -46,6 +56,7 @@ export const Jardin: React.FC = () => {
 
   return (
     <div className="jardin">
+      <TopBar isAdmin={user?.role === 'admin'} />
       <div className="jardin__container">
         <header className="jardin__header">
           <h1 className="jardin__title">Jardín de Emaús</h1>
@@ -78,6 +89,16 @@ export const Jardin: React.FC = () => {
           </Card>
         )}
 
+        <Button
+          variant="primary"
+          size="lg"
+          fullWidth
+          onClick={() => navigate('/scanner')}
+          className="jardin__cta-button"
+        >
+          Registrar Asistencia
+        </Button>
+
         <div className="jardin__list-header">
           <h3 className="jardin__list-title">Orden de Flores</h3>
           <p className="jardin__list-subtitle">
@@ -85,53 +106,69 @@ export const Jardin: React.FC = () => {
           </p>
         </div>
 
-        <div className="jardin__list">
-          {data?.entries.map((entry) => (
-            <Card
-              key={entry.user.id}
-              variant={entry.isCurrentUser ? 'outlined' : 'default'}
-              padding="md"
-              className="jardin__entry"
-            >
-              <div className="jardin__entry-rank">
-                {entry.rank <= 3 ? (
-                  <span className="jardin__medal">
-                    {entry.rank === 1 && '🥇'}
-                    {entry.rank === 2 && '🥈'}
-                    {entry.rank === 3 && '🥉'}
-                  </span>
-                ) : (
-                  <span className="jardin__rank-number">#{entry.rank}</span>
-                )}
-              </div>
-              <div className="jardin__entry-info">
-                <h4 className="jardin__entry-name">{entry.user.name}</h4>
-                {entry.isCurrentUser && (
-                  <span className="jardin__entry-badge-text">Tú</span>
-                )}
-              </div>
-              <div className="jardin__entry-flores">
-                <span className="jardin__entry-flores-count">
-                  {entry.flores}
-                </span>
-                <span className="jardin__entry-flores-icon">🌸</span>
-              </div>
-            </Card>
-          ))}
-        </div>
-
-        <div className="jardin__actions">
-          <Button
-            variant="primary"
-            size="lg"
-            fullWidth
-            onClick={() => navigate('/scanner')}
+        <div 
+          ref={parentRef}
+          className="jardin__list"
+          style={{
+            height: '600px',
+            overflow: 'auto',
+          }}
+        >
+          <div
+            style={{
+              height: `${virtualizer.getTotalSize()}px`,
+              width: '100%',
+              position: 'relative',
+            }}
           >
-            Registrar Asistencia
-          </Button>
-          <Button variant="ghost" fullWidth onClick={handleLogout}>
-            Cerrar Sesión
-          </Button>
+            {virtualizer.getVirtualItems().map((virtualItem) => {
+              const entry = data!.entries[virtualItem.index];
+              return (
+                <div
+                  key={entry.user.id}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: `${virtualItem.size}px`,
+                    transform: `translateY(${virtualItem.start}px)`,
+                    paddingBottom: '0.5rem',
+                  }}
+                >
+                  <Card
+                    variant={entry.isCurrentUser ? 'outlined' : 'default'}
+                    padding="md"
+                    className="jardin__entry"
+                  >
+                    <div className="jardin__entry-rank">
+                      {entry.rank <= 3 ? (
+                        <span className="jardin__medal">
+                          {entry.rank === 1 && '🥇'}
+                          {entry.rank === 2 && '🥈'}
+                          {entry.rank === 3 && '🥉'}
+                        </span>
+                      ) : (
+                        <span className="jardin__rank-number">#{entry.rank}</span>
+                      )}
+                    </div>
+                    <div className="jardin__entry-info">
+                      <h4 className="jardin__entry-name">{entry.user.name}</h4>
+                      {entry.isCurrentUser && (
+                        <span className="jardin__entry-badge-text">Tú</span>
+                      )}
+                    </div>
+                    <div className="jardin__entry-flores">
+                      <span className="jardin__entry-flores-count">
+                        {entry.flores}
+                      </span>
+                      <span className="jardin__entry-flores-icon">🌸</span>
+                    </div>
+                  </Card>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

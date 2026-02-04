@@ -1,40 +1,52 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import { useAttendanceScan } from '../hooks/useApi';
 import { Card, Button, Badge } from '../components/ui';
+import { TopBar } from '../components/TopBar';
 import './Scanner.css';
 
 type ScanStatus = 'idle' | 'scanning' | 'success' | 'error' | 'duplicate';
 
 interface ScanResult {
   message: string;
-  flores?: number;
+  flowers?: number;
 }
 
 export const Scanner: React.FC = () => {
   const navigate = useNavigate();
-  const { mutateAsync: scanAttendance, isPending } = useAttendanceScan();
+  const { user } = useAuth();
+  const { mutateAsync: scanAttendance } = useAttendanceScan();
   const [status, setStatus] = useState<ScanStatus>('idle');
   const [result, setResult] = useState<ScanResult | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const qrReaderRef = useRef<HTMLDivElement>(null);
+  const isProcessingRef = useRef(false);
+
+  const isAdmin = user?.role === 'admin';
 
   useEffect(() => {
     return () => {
-      stopScanner();
+      // Cleanup al desmontar el componente
+      if (scannerRef.current) {
+        scannerRef.current.stop().catch(() => {});
+        scannerRef.current.clear();
+        scannerRef.current = null;
+      }
     };
   }, []);
 
   const startScanner = async () => {
-    if (!qrReaderRef.current || isScanning) return;
+    if (isScanning || scannerRef.current) return;
 
     try {
       const html5QrCode = new Html5Qrcode('qr-reader');
       scannerRef.current = html5QrCode;
       setIsScanning(true);
       setStatus('scanning');
+      isProcessingRef.current = false;
 
       await html5QrCode.start(
         { facingMode: 'environment' },
@@ -42,8 +54,12 @@ export const Scanner: React.FC = () => {
           fps: 10,
           qrbox: { width: 250, height: 250 },
         },
-        async (decodedText) => {
-          await handleScan(decodedText);
+        (decodedText) => {
+          // Detener inmediatamente el scanner cuando se detecta un QR
+          if (!isProcessingRef.current) {
+            isProcessingRef.current = true;
+            handleScan(decodedText);
+          }
         },
         undefined
       );
@@ -54,13 +70,16 @@ export const Scanner: React.FC = () => {
         message: 'No se pudo acceder a la cámara. Verifica los permisos.',
       });
       setIsScanning(false);
+      scannerRef.current = null;
     }
   };
 
   const stopScanner = async () => {
-    if (scannerRef.current && isScanning) {
+    if (scannerRef.current) {
       try {
-        await scannerRef.current.stop();
+        if (isScanning) {
+          await scannerRef.current.stop();
+        }
         scannerRef.current.clear();
       } catch (err) {
         console.error('Error deteniendo escáner:', err);
@@ -71,19 +90,24 @@ export const Scanner: React.FC = () => {
     }
   };
 
-  const handleScan = async (qrCode: string) => {
-    if (isPending) return;
+  const handleCancel = async () => {
+    await stopScanner();
+    navigate('/jardin');
+  };
 
+  const handleScan = async (qrCode: string) => {
+    // Detener el scanner PRIMERO
     await stopScanner();
 
     try {
       const response = await scanAttendance({ qrCode });
 
-      if (response.success) {
+      // Considerar exitoso si added es true
+      if (response.added) {
         setStatus('success');
         setResult({
           message: response.message,
-          flores: response.flores,
+          flowers: response.flowers,
         });
       } else {
         setStatus('duplicate');
@@ -100,9 +124,11 @@ export const Scanner: React.FC = () => {
     }
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
+    await stopScanner();
     setStatus('idle');
     setResult(null);
+    isProcessingRef.current = false;
   };
 
   const getStatusIcon = () => {
@@ -133,6 +159,7 @@ export const Scanner: React.FC = () => {
 
   return (
     <div className="scanner">
+      <TopBar isAdmin={isAdmin} />
       <div className="scanner__container">
         <header className="scanner__header">
           <h1 className="scanner__title">Registrar Asistencia</h1>
@@ -142,6 +169,14 @@ export const Scanner: React.FC = () => {
         </header>
 
         <Card variant="elevated" padding="lg" className="scanner__card">
+          {/* Elemento QR siempre presente (requerido por Html5Qrcode) */}
+          <div 
+            id="qr-reader" 
+            ref={qrReaderRef} 
+            className="scanner__video"
+            style={{ display: status === 'scanning' ? 'block' : 'none' }}
+          />
+
           {status === 'idle' && (
             <div className="scanner__idle">
               <div className="scanner__icon">{getStatusIcon()}</div>
@@ -161,11 +196,10 @@ export const Scanner: React.FC = () => {
 
           {status === 'scanning' && (
             <div className="scanner__active">
-              <div id="qr-reader" ref={qrReaderRef} className="scanner__video" />
               <p className="scanner__hint">
                 Centra el código QR en el recuadro
               </p>
-              <Button variant="secondary" fullWidth onClick={stopScanner}>
+              <Button variant="secondary" fullWidth onClick={handleCancel}>
                 Cancelar
               </Button>
             </div>
@@ -173,12 +207,29 @@ export const Scanner: React.FC = () => {
 
           {(status === 'success' || status === 'error' || status === 'duplicate') && (
             <div className="scanner__result">
-              <div className="scanner__icon">{getStatusIcon()}</div>
-              <Badge variant={getStatusColor()} size="lg">
-                {result?.message}
-              </Badge>
-              {status === 'success' && result?.flores && (
-                <p className="scanner__flores">+{result.flores} flor{result.flores > 1 ? 'es' : ''} 🌸</p>
+              {status === 'success' ? (
+                <>
+                  <div className="scanner__success-container">
+                    <div className="scanner__success-icon">🌸</div>
+                    <h3 className="scanner__success-title">¡Asistencia Registrada!</h3>
+                    {result?.flowers && (
+                      <div className="scanner__flores-badge">
+                        <span className="scanner__flores-number">+{result.flowers}</span>
+                        <span className="scanner__flores-text">flor{result.flowers > 1 ? 'es' : ''}</span>
+                      </div>
+                    )}
+                    {result?.message && (
+                      <p className="scanner__success-message">{result.message}</p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="scanner__icon">{getStatusIcon()}</div>
+                  <Badge variant={getStatusColor()} size="lg">
+                    {result?.message}
+                  </Badge>
+                </>
               )}
               <div className="scanner__actions">
                 <Button variant="secondary" fullWidth onClick={handleReset}>

@@ -8,6 +8,7 @@ Sistema de asistencia con gamificación para la comunidad católica femenina "Em
 - 📷 Escaneo de códigos QR para registrar asistencia
 - 🌸 Sistema de reconocimiento con "flores" (no puntos competitivos)
 - 🏆 "Jardín de Emaús" - leaderboard con enfoque en reconocimiento comunitario
+- ⚙️ **Panel de administración de sesiones** (crear, ver QR, desactivar)
 - 📱 PWA - Instalable como app nativa
 - 🎨 Diseño sobrio, cálido y respetuoso
 
@@ -43,11 +44,20 @@ Cruz + mariposa (sobriedad + transformación)
 ```
 src/
 ├── components/
-│   └── ui/              # Button, Card, Badge
+│   ├── ui/              # Button, Card, Badge
+│   ├── SessionForm.tsx  # Formulario de creación de sesiones
+│   └── QRModal.tsx      # Modal para visualizar códigos QR
 ├── context/             # AuthContext
 ├── hooks/               # useApi (React Query hooks)
 ├── services/            # API client
 ├── styles/              # Design tokens + global styles
+├── types/               # TypeScript definitions
+└── views/
+    ├── Login.tsx        # Autenticación
+    ├── Scanner.tsx      # Escaneo QR asistencia
+    ├── Jardin.tsx       # Leaderboard
+    └── AdminSessions.tsx # Gestión de sesiones (admin)
+```
 ├── types/               # TypeScript interfaces
 ├── views/               # Login, Scanner, Jardin
 └── App.tsx              # Router + providers

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Button, Card } from '../components/ui';
+import logoEmaus from '../assets/logo-emaus-mujeres.png';
 import './Login.css';
 
 export const Login: React.FC = () => {
@@ -40,12 +41,16 @@ export const Login: React.FC = () => {
       <div className="login__container">
         <div className="login__header">
           <div className="login__logo">
-            {/* Logo: cruz + mariposa */}
-            <div className="login__logo-icon">✝️🦋</div>
+            <img 
+              src={logoEmaus} 
+              alt="Logo Emaús Mujeres" 
+              className="login__logo-image"
+            />
           </div>
           <h1 className="login__title">Emaús Mujeres</h1>
           <p className="login__subtitle">
-            Bienvenida. Ingresa para registrar tu asistencia.
+            Bienvenida. <br />
+            Ingresa para registrar tu asistencia.
           </p>
         </div>
 

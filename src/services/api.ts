@@ -6,6 +6,14 @@ import type {
   LeaderboardResponse,
   User,
   ApiResponse,
+  CreateSessionRequest,
+  CreateSessionResponse,
+  Session,
+  SessionQRResponse,
+  DeactivateSessionResponse,
+  BulkUsersRequest,
+  BulkUsersResponse,
+  CSVImportResponse,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
@@ -102,6 +110,88 @@ class ApiClient {
       method: 'GET',
     });
     return response.data;
+  }
+
+  // Admin Session endpoints
+  async createSession(
+    data: CreateSessionRequest
+  ): Promise<CreateSessionResponse> {
+    const response = await this.request<ApiResponse<CreateSessionResponse>>(
+      '/admin/sessions',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    );
+    return response.data;
+  }
+
+  async getSessions(): Promise<Session[]> {
+    const response = await this.request<ApiResponse<Session[]>>(
+      '/admin/sessions',
+      {
+        method: 'GET',
+      }
+    );
+    return response.data;
+  }
+
+  async getSessionQR(sessionId: string): Promise<SessionQRResponse> {
+    const response = await this.request<ApiResponse<SessionQRResponse>>(
+      `/admin/sessions/${sessionId}/qr`,
+      {
+        method: 'GET',
+      }
+    );
+    return response.data;
+  }
+
+  async deactivateSession(
+    sessionId: string
+  ): Promise<DeactivateSessionResponse> {
+    const response = await this.request<ApiResponse<DeactivateSessionResponse>>(
+      `/admin/sessions/${sessionId}/deactivate`,
+      {
+        method: 'PUT',
+      }
+    );
+    return response.data;
+  }
+
+  // User management endpoints
+  async createBulkUsers(
+    request: BulkUsersRequest
+  ): Promise<BulkUsersResponse> {
+    const response = await this.request<ApiResponse<BulkUsersResponse>>(
+      '/admin/users/bulk',
+      {
+        method: 'POST',
+        body: JSON.stringify(request),
+      }
+    );
+    return response.data;
+  }
+
+  async uploadUsersCSV(file: File): Promise<CSVImportResponse> {
+    const token = this.getAuthToken();
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(`${this.baseURL}/admin/users/csv`, {
+      method: 'POST',
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Error desconocido' }));
+      throw new Error(error.message || `Error ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.data;
   }
 }
 

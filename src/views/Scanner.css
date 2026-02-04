@@ -1,18 +1,31 @@
 .scanner {
   min-height: 100vh;
   min-height: 100dvh;
-  padding: var(--spacing-lg);
-  padding-top: var(--spacing-xl);
 }
 
 .scanner__container {
   max-width: 500px;
   margin: 0 auto;
+  padding: var(--spacing-xl) var(--spacing-lg);
+}
 }
 
 .scanner__header {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
   margin-bottom: var(--spacing-xl);
+}
+
+.scanner__header > div:first-child {
+  flex: 1;
+  text-align: center;
+}
+
+.scanner__nav {
+  display: flex;
+  gap: 0.5rem;
 }
 
 .scanner__title {
@@ -66,6 +79,73 @@
   font-size: var(--font-size-sm);
 }
 
+.scanner__success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.scanner__success-icon {
+  font-size: 5rem;
+  line-height: 1;
+  animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.scanner__success-title {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-success);
+  margin: 0;
+  text-align: center;
+}
+
+.scanner__flores-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, rgba(39, 174, 96, 0.15), rgba(39, 174, 96, 0.05));
+  border: 2px solid var(--color-success);
+  border-radius: var(--radius-lg);
+}
+
+.scanner__flores-number {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+}
+
+.scanner__flores-text {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-success);
+}
+
+.scanner__success-message {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  margin: 0;
+  max-width: 300px;
+}
+
 .scanner__flores {
   font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
@@ -91,4 +171,25 @@
 
 #qr-reader video {
   border-radius: var(--radius-lg);
+}
+
+@media (max-width: 768px) {
+  .scanner__header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .scanner__header > div:first-child {
+    order: 1;
+  }
+
+  .scanner__nav {
+    order: 0;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .scanner__title {
+    font-size: var(--font-size-2xl);
+  }
 }

@@ -1,0 +1,113 @@
+.session-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.session-form__title {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.session-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.session-form__label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.session-form__input {
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-base);
+  font-family: var(--font-family-body);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  transition: border-color 0.2s ease;
+}
+
+.session-form__input--date,
+.session-form__input--time {
+  cursor: pointer;
+}
+
+.session-form__input--date::-webkit-calendar-picker-indicator,
+.session-form__input--time::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease;
+  opacity: 1;
+  filter: invert(31%) sepia(18%) saturate(1728%) hue-rotate(355deg) brightness(93%) contrast(88%);
+}
+
+.session-form__input--date::-webkit-calendar-picker-indicator:hover,
+.session-form__input--time::-webkit-calendar-picker-indicator:hover {
+  background-color: rgba(107, 58, 30, 0.1);
+  filter: invert(31%) sepia(18%) saturate(1728%) hue-rotate(355deg) brightness(93%) contrast(88%);
+}
+
+/* Mejora visual para inputs de fecha y hora */
+.session-form__input--date::-webkit-datetime-edit,
+.session-form__input--time::-webkit-datetime-edit {
+  padding: 0;
+}
+
+.session-form__input--date::-webkit-datetime-edit-fields-wrapper,
+.session-form__input--time::-webkit-datetime-edit-fields-wrapper {
+  padding: 0;
+}
+
+/* Estilo para el placeholder de inputs vacíos */
+.session-form__input--date:invalid,
+.session-form__input--time:invalid {
+  color: var(--color-text-tertiary);
+}
+
+.session-form__input:hover:not(:disabled) {
+  border-color: var(--color-primary-light);
+}
+
+.session-form__input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(107, 58, 30, 0.1);
+}
+
+.session-form__input:disabled {
+  background-color: var(--color-surface-hover);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.session-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 640px) {
+  .session-form__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.session-form__error {
+  padding: 0.875rem 1rem;
+  background-color: rgba(214, 69, 69, 0.1);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-md);
+  color: var(--color-error);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}

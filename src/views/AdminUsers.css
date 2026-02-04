@@ -1,0 +1,153 @@
+.admin-users {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    var(--color-background) 0%,
+    rgba(107, 58, 30, 0.03) 100%
+  );
+}
+
+.admin-users__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.admin-users__header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.admin-users__title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.admin-users__subtitle {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  margin: 0.25rem 0 0 0;
+}
+
+/* Success and Error Messages */
+.admin-users__success,
+.admin-users__error {
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.admin-users__success-content,
+.admin-users__error-content {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.admin-users__success-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.admin-users__error-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.admin-users__success-title,
+.admin-users__error-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 0.25rem 0;
+}
+
+.admin-users__success-message,
+.admin-users__error-message {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* Form Card */
+.admin-users__form-card {
+  background: var(--color-surface);
+}
+
+.admin-users__tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.admin-users__tab {
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: all 0.2s ease;
+  margin-bottom: -2px;
+}
+
+.admin-users__tab:hover {
+  color: var(--color-text-primary);
+  background: rgba(107, 58, 30, 0.05);
+}
+
+.admin-users__tab--active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.admin-users__form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 1.5rem 0;
+}
+
+/* Info Section */
+.admin-users__info {
+  margin-top: 0.5rem;
+}
+
+.admin-users__info-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 0.75rem 0;
+}
+
+.admin-users__info-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.admin-users__info-list li {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}

@@ -21,6 +21,13 @@
   margin-bottom: var(--spacing-md);
 }
 
+.login__logo-image {
+  width: 150px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
 .login__logo-icon {
   font-size: 3rem;
   line-height: 1;

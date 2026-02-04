@@ -5,6 +5,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { Login } from './views/Login';
 import { Scanner } from './views/Scanner';
 import { Jardin } from './views/Jardin';
+import { AdminSessions } from './views/AdminSessions';
+import { AdminUsers } from './views/AdminUsers';
 import './styles/global.css';
 
 const queryClient = new QueryClient({
@@ -12,6 +14,9 @@ const queryClient = new QueryClient({
     queries: {
       retry: 1,
       refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      staleTime: 5 * 60 * 1000, // 5 minutos
     },
   },
 });
@@ -62,6 +67,34 @@ const PublicRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   }
 
   if (isAuthenticated) {
+    return <Navigate to="/jardin" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+const AdminRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+  const { isAuthenticated, isLoading, user } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        minHeight: '100vh',
+        color: 'var(--color-text-secondary)',
+      }}>
+        Cargando...
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  if (user?.role !== 'admin') {
     return <Navigate to="/scanner" replace />;
   }
 
@@ -96,6 +129,22 @@ function App() {
                 <ProtectedRoute>
                   <Jardin />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/sessions"
+              element={
+                <AdminRoute>
+                  <AdminSessions />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <AdminRoute>
+                  <AdminUsers />
+                </AdminRoute>
               }
             />
             <Route path="/" element={<Navigate to="/login" replace />} />

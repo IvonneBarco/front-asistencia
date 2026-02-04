@@ -27,6 +27,7 @@ export interface User {
   name: string;
   flores: number;
   avatar?: string;
+  role: 'user' | 'admin';
 }
 
 // Attendance types
@@ -35,9 +36,9 @@ export interface AttendanceScanRequest {
 }
 
 export interface AttendanceScanResponse {
-  success: boolean;
+  added: boolean;
   message: string;
-  flores?: number;
+  flowers: number;
   session?: {
     id: string;
     name: string;
@@ -60,4 +61,69 @@ export interface LeaderboardEntry {
 export interface LeaderboardResponse {
   entries: LeaderboardEntry[];
   currentUser?: LeaderboardEntry;
+}
+
+// Session types
+export interface Session {
+  id: string;
+  sessionId: string;
+  name: string;
+  startsAt: string;
+  endsAt: string;
+  isActive: boolean;
+  createdAt?: string;
+}
+
+export interface CreateSessionRequest {
+  name: string;
+  startsAt: string;
+  endsAt: string;
+}
+
+export interface CreateSessionResponse extends Session {
+  qrCode: string;
+}
+
+export interface SessionQRResponse {
+  sessionId: string;
+  name: string;
+  qrCode: string;
+}
+
+export interface DeactivateSessionResponse {
+  message: string;
+  sessionId: string;
+}
+
+// Bulk user creation types
+export interface BulkUserInput {
+  name: string;
+  email: string;
+  pin: string;
+  role: 'user' | 'admin';
+}
+
+export interface BulkUsersRequest {
+  users: BulkUserInput[];
+}
+
+export interface BulkUsersResponse {
+  created: Array<{ email: string; name: string }>;
+  updated: Array<{ email: string; name: string }>;
+  errors: Array<{ email: string; name: string; error: string }>;
+  total: number;
+}
+
+// CSV import types
+export interface CSVImportError {
+  email: string;
+  name: string;
+  error: string;
+}
+
+export interface CSVImportResponse {
+  created: Array<{ email: string; name: string }>;
+  updated: Array<{ email: string; name: string }>;
+  errors: CSVImportError[];
+  total: number;
 }

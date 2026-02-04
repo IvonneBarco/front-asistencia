@@ -1,0 +1,93 @@
+.bulk-user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bulk-user-form__users {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.bulk-user-form__card {
+  background: var(--color-background);
+}
+
+.bulk-user-form__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.bulk-user-form__card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.bulk-user-form__fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .bulk-user-form__fields {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.bulk-user-form__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.bulk-user-form__label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.bulk-user-form__input,
+.bulk-user-form__select {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  transition: all 0.2s ease;
+}
+
+.bulk-user-form__input:focus,
+.bulk-user-form__select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(107, 58, 30, 0.1);
+}
+
+.bulk-user-form__input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+.bulk-user-form__select {
+  cursor: pointer;
+}
+
+.bulk-user-form__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .bulk-user-form__actions {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}

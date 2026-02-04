@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import type { User, LoginRequest } from '../types';
 import { apiClient } from '../services/api';
 
@@ -26,6 +27,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const queryClient = useQueryClient();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -57,6 +59,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const response = await apiClient.login(credentials);
       localStorage.setItem('auth_token', response.token);
       setUser(response.user);
+      // Invalidar cache para refrescar datos del nuevo usuario
+      queryClient.invalidateQueries({ queryKey: ['leaderboard'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     } catch (error) {
       throw error;
     }
@@ -65,6 +70,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     localStorage.removeItem('auth_token');
     setUser(null);
+    // Limpiar cache al cerrar sesión
+    queryClient.clear();
   };
 
   const value: AuthContextValue = {
