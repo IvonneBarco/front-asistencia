@@ -27,11 +27,17 @@ export interface LoginResponse {
 
 export interface User {
   id: string;
-  email: string;
+  email: string | null;
+  identification: string;
   name: string;
   flores: number;
+  flowers: number;
   avatar?: string;
   role: 'user' | 'admin';
+  group?: {
+    id: string;
+    name: string;
+  } | null;
 }
 
 // Attendance types
@@ -129,4 +135,105 @@ export interface CSVImportResponse {
   updated: Array<{ identification: string; name: string }>;
   errors: CSVImportError[];
   total: number;
+}
+
+export interface UsersListResponse extends Array<User> {}
+
+// Group types
+export interface GroupUser {
+  id: string;
+  name: string;
+  email: string;
+  identification: string;
+  flowers: number;
+  role: string;
+}
+
+export interface Group {
+  id: string;
+  name: string;
+  memberCount: number;
+  isActive: boolean;
+  users?: GroupUser[];
+}
+
+export interface GroupsResponse extends Array<Group> {}
+
+export interface MyGroupResponse {
+  hasGroup?: boolean;
+  group?: {
+    id: string;
+    name: string;
+    isActive: boolean;
+  };
+  joinedAt?: string;
+  message?: string;
+}
+
+export interface JoinGroupRequest {
+  groupId: string;
+}
+
+export interface JoinGroupResponse {
+  message: string;
+  groupId: string;
+  groupName: string;
+}
+
+export interface AssignGroupRequest {
+  groupId: string;
+  reason?: string;
+}
+
+export interface AssignGroupResponse {
+  message: string;
+  user: {
+    id: string;
+    name: string;
+    group: {
+      id: string;
+      name: string;
+    };
+  };
+}
+
+export interface GroupHistoryEntry {
+  id: number;
+  groupId: string;
+  groupName: string;
+  changedBy: string;
+  changedAt: string;
+  reason?: string;
+}
+
+export interface GroupHistoryResponse {
+  history: GroupHistoryEntry[];
+}
+
+// Admin Group Management types
+export interface CreateGroupRequest {
+  name: string;
+  isActive: boolean;
+}
+
+export interface CreateGroupResponse {
+  message: string;
+  group: Group;
+}
+
+export interface AllGroupsResponse extends Array<Group> {}
+
+export interface UpdateGroupRequest {
+  name?: string;
+  isActive?: boolean;
+}
+
+export interface UpdateGroupResponse {
+  message: string;
+  group: Group;
+}
+
+export interface DeleteGroupResponse {
+  message: string;
+  groupId: string;
 }

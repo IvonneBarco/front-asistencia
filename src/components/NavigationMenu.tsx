@@ -60,6 +60,12 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({ isAdmin }) => {
           >
             🌸 Jardín
           </button>
+          <button
+            className="nav-menu__item"
+            onClick={() => handleNavigate('/my-group')}
+          >
+            👥 Mi Grupo
+          </button>
           {isAdmin && (
             <>
               <div className="nav-menu__divider" />
@@ -74,6 +80,12 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({ isAdmin }) => {
                 onClick={() => handleNavigate('/admin/users')}
               >
                 👥 Usuarios
+              </button>
+              <button
+                className="nav-menu__item"
+                onClick={() => handleNavigate('/admin/groups')}
+              >
+                🎯 Grupos
               </button>
             </>
           )}

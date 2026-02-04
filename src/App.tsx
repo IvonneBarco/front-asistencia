@@ -6,8 +6,10 @@ import { Login } from './views/Login';
 import { AdminLogin } from './views/AdminLogin';
 import { Scanner } from './views/Scanner';
 import { Jardin } from './views/Jardin';
+import { MyGroup } from './views/MyGroup';
 import { AdminSessions } from './views/AdminSessions';
 import { AdminUsers } from './views/AdminUsers';
+import { AdminGroups } from './views/AdminGroups';
 import './styles/global.css';
 
 const queryClient = new QueryClient({
@@ -141,6 +143,14 @@ function App() {
               }
             />
             <Route
+              path="/my-group"
+              element={
+                <ProtectedRoute>
+                  <MyGroup />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/admin/sessions"
               element={
                 <AdminRoute>
@@ -153,6 +163,14 @@ function App() {
               element={
                 <AdminRoute>
                   <AdminUsers />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/groups"
+              element={
+                <AdminRoute>
+                  <AdminGroups />
                 </AdminRoute>
               }
             />

@@ -15,6 +15,20 @@ import type {
   BulkUsersRequest,
   BulkUsersResponse,
   CSVImportResponse,
+  GroupsResponse,
+  MyGroupResponse,
+  JoinGroupRequest,
+  JoinGroupResponse,
+  AssignGroupRequest,
+  AssignGroupResponse,
+  GroupHistoryResponse,
+  CreateGroupRequest,
+  CreateGroupResponse,
+  AllGroupsResponse,
+  UpdateGroupRequest,
+  UpdateGroupResponse,
+  DeleteGroupResponse,
+  UsersListResponse,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
@@ -205,6 +219,126 @@ class ApiClient {
 
     const result = await response.json();
     return result.data;
+  }
+
+  async getAllUsers(): Promise<UsersListResponse> {
+    const response = await this.request<ApiResponse<UsersListResponse>>(
+      '/admin/users',
+      {
+        method: 'GET',
+      }
+    );
+    return response.data;
+  }
+
+  // Group endpoints
+  async getGroups(): Promise<GroupsResponse> {
+    const response = await this.request<ApiResponse<GroupsResponse>>(
+      '/groups',
+      {
+        method: 'GET',
+      }
+    );
+    return response.data;
+  }
+
+  async getMyGroup(): Promise<MyGroupResponse | null> {
+    try {
+      const response = await this.request<ApiResponse<MyGroupResponse>>(
+        '/groups/my-group',
+        {
+          method: 'GET',
+        }
+      );
+      return response.data;
+    } catch (error) {
+      // Si retorna 404, el usuario no tiene grupo
+      if (error instanceof Error && error.message.includes('404')) {
+        return null;
+      }
+      throw error;
+    }
+  }
+
+  async joinGroup(data: JoinGroupRequest): Promise<JoinGroupResponse> {
+    const response = await this.request<ApiResponse<JoinGroupResponse>>(
+      '/groups/join',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    );
+    return response.data;
+  }
+
+  async assignUserGroup(
+    userId: string,
+    data: AssignGroupRequest
+  ): Promise<AssignGroupResponse> {
+    const response = await this.request<ApiResponse<AssignGroupResponse>>(
+      `/admin/users/${userId}/group`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+      }
+    );
+    return response.data;
+  }
+
+  async getUserGroupHistory(userId: string): Promise<GroupHistoryResponse> {
+    const response = await this.request<ApiResponse<GroupHistoryResponse>>(
+      `/admin/users/${userId}/group-history`,
+      {
+        method: 'GET',
+      }
+    );
+    return response.data;
+  }
+
+  // Admin Group Management endpoints
+  async createGroup(data: CreateGroupRequest): Promise<CreateGroupResponse> {
+    const response = await this.request<ApiResponse<CreateGroupResponse>>(
+      '/groups',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    );
+    return response.data;
+  }
+
+  async getAllGroups(): Promise<AllGroupsResponse> {
+    const response = await this.request<ApiResponse<AllGroupsResponse>>(
+      '/groups/all',
+      {
+        method: 'GET',
+      }
+    );
+    return response.data;
+  }
+
+  async updateGroup(
+    groupId: string,
+    data: UpdateGroupRequest
+  ): Promise<UpdateGroupResponse> {
+    const response = await this.request<ApiResponse<UpdateGroupResponse>>(
+      `/groups/${groupId}`,
+      {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+      }
+    );
+    return response.data;
+  }
+
+  async deleteGroup(groupId: string): Promise<DeleteGroupResponse> {
+    const response = await this.request<ApiResponse<DeleteGroupResponse>>(
+      `/groups/${groupId}`,
+      {
+        method: 'DELETE',
+      }
+    );
+    return response.data;
   }
 }
 

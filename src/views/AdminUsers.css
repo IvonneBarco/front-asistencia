@@ -151,3 +151,80 @@
   color: var(--color-text-secondary);
   line-height: 1.5;
 }
+
+/* Users List */
+.admin-users__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.admin-users__list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  background-color: var(--color-background);
+  border-radius: var(--border-radius-md);
+  gap: var(--spacing-md);
+  transition: box-shadow 0.2s;
+}
+
+.admin-users__list-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.admin-users__user-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.admin-users__user-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-xs);
+}
+
+.admin-users__user-details {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.admin-users__user-stats {
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.admin-users__loading,
+.admin-users__empty {
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+}
+
+@media (max-width: 768px) {
+  .admin-users__list-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-users__user-info {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-users__user-stats {
+    justify-content: flex-start;
+  }
+}

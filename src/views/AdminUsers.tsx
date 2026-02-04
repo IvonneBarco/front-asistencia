@@ -1,21 +1,26 @@
 import React, { useState } from 'react';
-import { useCreateBulkUsers, useUploadUsersCSV } from '../hooks/useApi';
-import { Card } from '../components/ui';
+import { useCreateBulkUsers, useUploadUsersCSV, useGetAllUsers } from '../hooks/useApi';
+import { Card, Button, Badge } from '../components/ui';
 import { BulkUserForm } from '../components/BulkUserForm';
 import { CSVUpload } from '../components/CSVUpload';
 import { TopBar } from '../components/TopBar';
-import type { BulkUserInput, CSVImportResponse } from '../types';
+import { GroupAssignModal } from '../components/GroupAssignModal';
+import type { BulkUserInput, CSVImportResponse, User } from '../types';
 import './AdminUsers.css';
 
-type TabType = 'form' | 'csv';
+type TabType = 'form' | 'csv' | 'list';
 
 export const AdminUsers: React.FC = () => {
   const createBulkUsers = useCreateBulkUsers();
   const uploadCSV = useUploadUsersCSV();
-  const [activeTab, setActiveTab] = useState<TabType>('form');
+  const { data: usersData, isLoading: loadingUsers } = useGetAllUsers();
+  const [activeTab, setActiveTab] = useState<TabType>('list');
   const [showSuccess, setShowSuccess] = useState(false);
   const [createdCount, setCreatedCount] = useState(0);
   const [csvResult, setCsvResult] = useState<CSVImportResponse | null>(null);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+
+  const users = Array.isArray(usersData) ? usersData : [];
 
   const handleCreateUsers = async (users: BulkUserInput[]) => {
     try {
@@ -102,20 +107,69 @@ export const AdminUsers: React.FC = () => {
         <Card variant="elevated" padding="lg" className="admin-users__form-card">
           <div className="admin-users__tabs">
             <button
+              className={`admin-users__tab ${activeTab === 'list' ? 'admin-users__tab--active' : ''}`}
+              onClick={() => setActiveTab('list')}
+            >
+              User
+            </button>
+            <button
               className={`admin-users__tab ${activeTab === 'form' ? 'admin-users__tab--active' : ''}`}
               onClick={() => setActiveTab('form')}
             >
-              📝 Formulario
+              Create
             </button>
             <button
               className={`admin-users__tab ${activeTab === 'csv' ? 'admin-users__tab--active' : ''}`}
               onClick={() => setActiveTab('csv')}
             >
-              📄 Importar CSV
+              Import
             </button>
           </div>
 
-          {activeTab === 'form' ? (
+          {activeTab === 'list' ? (
+            <>
+              <h2 className="admin-users__form-title">Usuarios Registrados</h2>
+              {loadingUsers ? (
+                <div className="admin-users__loading">Cargando usuarios...</div>
+              ) : users.length === 0 ? (
+                <p className="admin-users__empty">
+                  No hay usuarios registrados todavía.
+                </p>
+              ) : (
+                <div className="admin-users__list">
+                  {users.map((user) => (
+                    <div key={user.id} className="admin-users__list-item">
+                      <div className="admin-users__user-info">
+                        <div>
+                          <p className="admin-users__user-name">{user.name}</p>
+                          <p className="admin-users__user-details">
+                            ID: {user.identification} • {user.email}
+                          </p>
+                        </div>
+                        <div className="admin-users__user-stats">
+                          <Badge variant="warning" size="sm">
+                            {user.flowers} 🌸
+                          </Badge>
+                          {user.group && (
+                            <Badge variant="default" size="sm">
+                              {user.group.name}
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => setSelectedUser(user)}
+                      >
+                        Gestionar Grupo
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          ) : activeTab === 'form' ? (
             <>
               <h2 className="admin-users__form-title">Crear Nuevos Usuarios</h2>
               <BulkUserForm
@@ -160,6 +214,13 @@ export const AdminUsers: React.FC = () => {
             </div>
           </Card>
         </div>
+
+        {selectedUser && (
+          <GroupAssignModal
+            user={selectedUser}
+            onClose={() => setSelectedUser(null)}
+          />
+        )}
       </div>
     </div>
   );
