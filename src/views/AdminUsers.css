@@ -14,6 +14,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  overflow-x: hidden;
 }
 
 .admin-users__header {
@@ -169,6 +170,8 @@
   border-radius: var(--border-radius-md);
   gap: var(--spacing-md);
   transition: box-shadow 0.2s;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .admin-users__list-item:hover {
@@ -196,6 +199,9 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .admin-users__user-stats {
@@ -211,9 +217,10 @@
   padding: var(--spacing-xl);
   color: var(--color-text-secondary);
   font-size: var(--font-size-base);
-}
+}container {
+    padding: 1rem;
+  }
 
-@media (max-width: 768px) {
   .admin-users__list-item {
     flex-direction: column;
     align-items: stretch;
@@ -223,6 +230,15 @@
     flex-direction: column;
     align-items: stretch;
   }
+
+  .admin-users__user-stats {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .admin-users__user-details {
+    white-space: normal;
+    word-break: break-word
 
   .admin-users__user-stats {
     justify-content: flex-start;
