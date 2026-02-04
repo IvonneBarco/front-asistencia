@@ -14,6 +14,9 @@ export const useLeaderboard = () => {
   return useQuery({
     queryKey: ['leaderboard'],
     queryFn: () => apiClient.getLeaderboard(),
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
+    staleTime: 0,
   });
 };
 
