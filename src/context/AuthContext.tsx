@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import type { User, LoginRequest, LoginIdentificationRequest } from '../types';
 import { apiClient } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthContextValue {
   user: User | null;
@@ -31,6 +32,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const queryClient = useQueryClient();
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Verificar si hay un token guardado al iniciar
@@ -52,6 +54,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (error instanceof Error && error.message.includes('401')) {
         localStorage.removeItem('auth_token');
         setUser(null);
+        queryClient.clear();
+        navigate('/login', { replace: true });
       } else {
         // Error temporal de red - mantener sesión
         console.warn('Error temporal al cargar usuario, manteniendo sesión:', error);
@@ -63,10 +67,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           } catch {
             localStorage.removeItem('auth_token');
             setUser(null);
+            queryClient.clear();
+            navigate('/login', { replace: true });
           }
         } else {
           localStorage.removeItem('auth_token');
           setUser(null);
+          queryClient.clear();
+          navigate('/login', { replace: true });
         }
       }
     } finally {
