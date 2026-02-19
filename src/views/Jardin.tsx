@@ -34,6 +34,16 @@ export const Jardin: React.FC = () => {
         <div className="jardin__container">
           <Card variant="elevated" padding="lg">
             <p className="jardin__error">Error al cargar el jardín</p>
+            <button
+              className="jardin__error-button"
+              onClick={() => {
+                localStorage.removeItem('auth_token');
+                localStorage.removeItem('user_data');
+                window.location.reload();
+              }}
+            >
+              Volver al inicio de sesión
+            </button>
           </Card>
         </div>
       </div>
