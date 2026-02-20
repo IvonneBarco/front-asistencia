@@ -154,6 +154,12 @@ export const AdminSessions: React.FC = () => {
                   <div className="admin-sessions__item-dates">
                     <div className="admin-sessions__item-date">
                       <span className="admin-sessions__item-date-label">
+                        PIN:
+                      </span>
+                      <span>{session.sessionPin}</span>
+                    </div>
+                    <div className="admin-sessions__item-date">
+                      <span className="admin-sessions__item-date-label">
                         Inicio:
                       </span>
                       <span>{formatDateTime(session.startsAt)}</span>

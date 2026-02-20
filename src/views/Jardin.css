@@ -38,6 +38,11 @@
   background: linear-gradient(135deg, rgba(107, 58, 30, 0.05) 0%, rgba(107, 58, 30, 0.02) 100%);
 }
 
+.jardin__pin-success {
+  margin-bottom: var(--spacing-xl);
+  background: linear-gradient(135deg, rgba(247, 244, 242, 0.904) 0%, rgba(241, 239, 238, 0.87) 100%);
+}
+
 .jardin__cta-button {
   margin-bottom: var(--spacing-xl);
   font-size: 1.125rem;

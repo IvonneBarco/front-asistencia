@@ -42,7 +42,8 @@ export interface User {
 
 // Attendance types
 export interface AttendanceScanRequest {
-  qrCode: string;
+  qrCode?: string;
+  sessionPin?: string;
 }
 
 export interface AttendanceScanResponse {
@@ -81,6 +82,7 @@ export interface Session {
   startsAt: string;
   endsAt: string;
   isActive: boolean;
+  sessionPin: string;
   createdAt?: string;
 }
 

@@ -1,0 +1,14 @@
+.footer {
+  width: 100%;
+  padding: 1rem 0 0.5rem 0;
+  background: transparent;
+  text-align: center;
+  position: relative;
+}
+
+.footer__version {
+  color: #6B3A1E;
+  font-size: 0.85rem;
+  font-family: Inter, Source Sans 3, Arial, sans-serif;
+  letter-spacing: 0.02em;
+}

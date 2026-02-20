@@ -2,7 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
-const APP_VERSION = new Date().toISOString();
+import pkg from './package.json';
+const APP_VERSION = `v${pkg.version}`;
 
 // https://vite.dev/config/
 export default defineConfig({

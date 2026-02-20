@@ -48,12 +48,12 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({ isAdmin }) => {
 
       {isOpen && (
         <div className="nav-menu__dropdown">
-          <button
+          {/* <button
             className="nav-menu__item"
             onClick={() => handleNavigate('/scanner')}
           >
             📷 Escanear
-          </button>
+          </button> */}
           <button
             className="nav-menu__item"
             onClick={() => handleNavigate('/jardin')}

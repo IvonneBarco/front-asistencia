@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { InstallPrompt } from './components/InstallPrompt';
+import { Footer } from './components/Footer';
 import { Login } from './views/Login';
 import { AdminLogin } from './views/AdminLogin';
 import { Scanner } from './views/Scanner';
@@ -179,6 +180,7 @@ function App() {
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
           <InstallPrompt />
+          <Footer />
         </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
