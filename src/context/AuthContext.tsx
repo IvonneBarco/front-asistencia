@@ -47,15 +47,44 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const loadCurrentUser = async () => {
     try {
       const userData = await apiClient.getCurrentUser();
+      // Actualizar datos cacheados con los del servidor
+      localStorage.setItem('user_data', JSON.stringify(userData));
       setUser(userData);
     } catch (error) {
-      // Si el backend no responde o el token es inválido, limpiar sesión
-      console.warn('No se pudo validar la sesión, redirigiendo a login:', error);
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('user_data');
-      setUser(null);
-      queryClient.clear();
-      navigate('/login', { replace: true });
+      const is401 = error instanceof Error && error.message.includes('401');
+
+      if (is401) {
+        // Token inválido o expirado → cerrar sesión
+        console.warn('Token inválido, cerrando sesión');
+        localStorage.removeItem('auth_token');
+        localStorage.removeItem('user_data');
+        setUser(null);
+        queryClient.clear();
+        navigate('/login', { replace: true });
+      } else {
+        // Error de red, CORS, timeout → intentar usar datos cacheados
+        console.warn('Error temporal al validar sesión, usando datos locales:', error);
+        const savedUser = localStorage.getItem('user_data');
+        if (savedUser) {
+          try {
+            setUser(JSON.parse(savedUser));
+          } catch {
+            // Datos corruptos → cerrar sesión
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user_data');
+            setUser(null);
+            queryClient.clear();
+            navigate('/login', { replace: true });
+          }
+        } else {
+          // Sin datos cacheados → cerrar sesión
+          localStorage.removeItem('auth_token');
+          localStorage.removeItem('user_data');
+          setUser(null);
+          queryClient.clear();
+          navigate('/login', { replace: true });
+        }
+      }
     } finally {
       setIsLoading(false);
     }
