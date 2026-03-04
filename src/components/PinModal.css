@@ -1,3 +1,36 @@
+.pin-modal__backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: pinFadeIn 0.2s ease;
+}
+
+.pin-modal__content {
+  max-width: 400px;
+  width: 100%;
+  margin: auto 0;
+  padding: 2rem 0;
+  animation: pinSlideUp 0.3s ease;
+}
+
+@keyframes pinFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pinSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
 .qrmodal__backdrop {
   position: fixed;
   inset: 0;
@@ -8,21 +41,11 @@
   justify-content: center;
   z-index: 1000;
   padding: 1rem;
-  animation: fadeIn 0.2s ease;
+  animation: pinFadeIn 0.2s ease;
 }
 
 .qrmodal__modal {
   max-width: 400px;
   width: 100%;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  animation: pinSlideUp 0.3s ease;
 }
