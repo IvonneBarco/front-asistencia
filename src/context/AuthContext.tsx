@@ -49,34 +49,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const userData = await apiClient.getCurrentUser();
       setUser(userData);
     } catch (error) {
-      // Solo cerrar sesión si es error 401 (no autorizado)
-      // Mantener token en otros errores (red, timeout, etc.)
-      if (error instanceof Error && error.message.includes('401')) {
-        localStorage.removeItem('auth_token');
-        setUser(null);
-        queryClient.clear();
-        navigate('/login', { replace: true });
-      } else {
-        // Error temporal de red - mantener sesión
-        console.warn('Error temporal al cargar usuario, manteniendo sesión:', error);
-        // Intentar recuperar usuario del localStorage si existe
-        const savedUser = localStorage.getItem('user_data');
-        if (savedUser) {
-          try {
-            setUser(JSON.parse(savedUser));
-          } catch {
-            localStorage.removeItem('auth_token');
-            setUser(null);
-            queryClient.clear();
-            navigate('/login', { replace: true });
-          }
-        } else {
-          localStorage.removeItem('auth_token');
-          setUser(null);
-          queryClient.clear();
-          navigate('/login', { replace: true });
-        }
-      }
+      // Si el backend no responde o el token es inválido, limpiar sesión
+      console.warn('No se pudo validar la sesión, redirigiendo a login:', error);
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('user_data');
+      setUser(null);
+      queryClient.clear();
+      navigate('/login', { replace: true });
     } finally {
       setIsLoading(false);
     }

@@ -33,28 +33,62 @@
   line-height: var(--line-height-relaxed);
 }
 
+/* ── Flower Garden Component ── */
+
+.flower-garden {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-top: var(--spacing-sm);
+}
+
+.flower-garden__flower {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.2s ease, filter 0.3s ease, opacity 0.3s ease;
+}
+
+.flower-garden__flower--earned {
+  filter: none;
+  opacity: 1;
+}
+
+.flower-garden__flower--pending {
+  filter: grayscale(1);
+  opacity: 0.25;
+}
+
+/* Size: small (list entries) */
+.flower-garden--sm {
+  gap: 1px;
+}
+
+.flower-garden--sm .flower-garden__flower {
+  font-size: 0.7rem;
+}
+
+/* Size: medium */
+.flower-garden--md .flower-garden__flower {
+  font-size: 0.9rem;
+}
+
+/* Size: large (current user card) */
+.flower-garden--lg {
+  gap: 4px;
+  justify-content: center;
+}
+
+.flower-garden--lg .flower-garden__flower {
+  font-size: 1.25rem;
+}
+
+/* ── Current User ── */
+
 .jardin__current-user {
   margin-bottom: var(--spacing-xl);
   background: linear-gradient(135deg, rgba(107, 58, 30, 0.05) 0%, rgba(107, 58, 30, 0.02) 100%);
-}
-
-.jardin__pin-success {
-  margin-bottom: var(--spacing-xl);
-  background: linear-gradient(135deg, rgba(247, 244, 242, 0.904) 0%, rgba(241, 239, 238, 0.87) 100%);
-}
-
-.jardin__cta-button {
-  margin-bottom: var(--spacing-xl);
-  font-size: 1.125rem;
-  font-weight: 600;
-  padding: 1rem;
-  box-shadow: 0 4px 12px rgba(107, 58, 30, 0.2);
-  transition: all 0.3s ease;
-}
-
-.jardin__cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(107, 58, 30, 0.3);
 }
 
 .jardin__current-user-content {
@@ -80,50 +114,20 @@
   font-weight: var(--font-weight-semibold);
 }
 
-.jardin__current-user-stats {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: var(--spacing-sm);
-}
-
-.jardin__flores-badge {
+.jardin__current-user-meta {
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
 }
 
-.jardin__flores-count {
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary);
-}
-
-.jardin__flores-icon {
-  font-size: var(--font-size-xl);
-}
-
-.jardin__list-header {
-  margin-bottom: var(--spacing-lg);
-}
-
-.jardin__list-title {
-  font-size: var(--font-size-xl);
-  color: var(--color-text-primary);
-  margin-bottom: var(--spacing-xs);
-}
-
-.jardin__list-subtitle {
+.jardin__flores-summary {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
 }
 
-.jardin__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-  margin-bottom: var(--spacing-xl);
-}
+/* ── Entry Cards ── */
 
 .jardin__entry {
   display: flex;
@@ -192,6 +196,37 @@
 
 .jardin__entry-flores-icon {
   font-size: var(--font-size-base);
+}
+
+/* ── Pin Success ── */
+
+.jardin__pin-success {
+  margin-bottom: var(--spacing-xl);
+  background: linear-gradient(135deg, rgba(247, 244, 242, 0.904) 0%, rgba(241, 239, 238, 0.87) 100%);
+}
+
+/* ── List ── */
+
+.jardin__list-header {
+  margin-bottom: var(--spacing-lg);
+}
+
+.jardin__list-title {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.jardin__list-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+.jardin__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
 }
 
 .jardin__actions {

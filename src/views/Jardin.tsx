@@ -7,6 +7,35 @@ import { PinModal } from "../components/PinModal";
 import { TopBar } from "../components/TopBar";
 import "./Jardin.css";
 
+const TOTAL_FLOWERS = 50;
+
+interface FlowerGardenProps {
+  earned: number;
+  total?: number;
+  size?: "sm" | "md" | "lg";
+}
+
+const FlowerGarden: React.FC<FlowerGardenProps> = ({
+  earned,
+  total = TOTAL_FLOWERS,
+  size = "md",
+}) => {
+  const sizeClass = `flower-garden--${size}`;
+  return (
+    <div className={`flower-garden ${sizeClass}`}>
+      {Array.from({ length: total }, (_, i) => (
+        <span
+          key={i}
+          className={`flower-garden__flower ${i < earned ? "flower-garden__flower--earned" : "flower-garden__flower--pending"}`}
+          aria-hidden="true"
+        >
+          🌸
+        </span>
+      ))}
+    </div>
+  );
+};
+
 export const Jardin: React.FC = () => {
   // Agregar animación CSS para la flor solo una vez
   useEffect(() => {
@@ -100,13 +129,9 @@ export const Jardin: React.FC = () => {
             <Button
               variant="primary"
               style={{ margin: "2rem auto", display: "block" }}
-              onClick={() => {
-                localStorage.removeItem("auth_token");
-                localStorage.removeItem("user_data");
-                window.location.reload();
-              }}
+              onClick={() => window.location.reload()}
             >
-              Recargar
+              Reintentar
             </Button>
           </Card>
         </div>
@@ -129,13 +154,7 @@ export const Jardin: React.FC = () => {
           </p>
         </header>
 
-        <Button
-          variant="primary"
-          style={{ margin: "2rem auto", display: "block" }}
-          onClick={() => setShowPinModal(true)}
-        >
-          Registrar asistencia
-        </Button>
+        
 
         {currentUserEntry && (
           <Card
@@ -145,23 +164,22 @@ export const Jardin: React.FC = () => {
           >
             <div className="jardin__current-user-content">
               <div className="jardin__current-user-info">
-                <p className="jardin__current-user-label">Tu posición</p>
+                <p className="jardin__current-user-label">
+                  Tu jardín ocupa el puesto #{currentUserEntry.rank}
+                </p>
                 <h2 className="jardin__current-user-name">
                   {currentUserEntry.user.name}
                 </h2>
               </div>
-              <div className="jardin__current-user-stats">
-                <Badge variant="success" size="lg">
-                  #{currentUserEntry.rank}
-                </Badge>
-                <div className="jardin__flores-badge">
-                  <span className="jardin__flores-count">
-                    {currentUserEntry.flores}
-                  </span>
-                  <span className="jardin__flores-icon">🌸</span>
-                </div>
-              </div>
             </div>
+            <FlowerGarden earned={currentUserEntry.flores} size="lg" />
+            <Button
+          variant="primary"
+          style={{ margin: "2rem auto", display: "block" }}
+          onClick={() => setShowPinModal(true)}
+        >
+          Registrar asistencia
+        </Button>
           </Card>
         )}
 
