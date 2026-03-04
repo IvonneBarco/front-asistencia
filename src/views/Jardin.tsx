@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useLeaderboard, useAttendanceScan } from "../hooks/useApi";
 import { useAuth } from "../context/AuthContext";
-import { Card, Badge, Button } from "../components/ui";
+import { Card, Button } from "../components/ui";
 import { PinModal } from "../components/PinModal";
 import { TopBar } from "../components/TopBar";
 import "./Jardin.css";
