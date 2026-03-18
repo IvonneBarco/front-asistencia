@@ -1,0 +1,295 @@
+.register-attendance {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding-bottom: 2rem;
+}
+
+.register-attendance__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.register-attendance__header {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.register-attendance__title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.register-attendance__subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.register-attendance__content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .register-attendance__content {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Result Section */
+.register-attendance__result {
+  margin-bottom: 1.5rem;
+  border-left: 4px solid;
+}
+
+.register-attendance__result--success {
+  border-left-color: #10b981;
+  background-color: #d1fae5;
+}
+
+.register-attendance__result--error {
+  border-left-color: #ef4444;
+  background-color: #fee2e2;
+}
+
+.register-attendance__result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.register-attendance__result-text {
+  font-weight: 600;
+  margin: 0;
+}
+
+.register-attendance__result-close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  color: #6b7280;
+}
+
+.register-attendance__result-close:hover {
+  color: #1f2937;
+}
+
+.register-attendance__result-details {
+  margin-top: 0.75rem;
+}
+
+.register-attendance__result-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.register-attendance__result-list {
+  font-size: 0.875rem;
+  margin-top: 0.75rem;
+}
+
+.register-attendance__result-list ul {
+  margin: 0.5rem 0 0 1.5rem;
+  padding: 0;
+}
+
+.register-attendance__result-list li {
+  margin: 0.25rem 0;
+}
+
+/* Section Titles */
+.register-attendance__section-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #1f2937;
+}
+
+/* Search Input */
+.register-attendance__search {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.2s;
+}
+
+.register-attendance__search:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+/* User List */
+.register-attendance__user-list {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.register-attendance__user-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: white;
+}
+
+.register-attendance__user-item:hover {
+  border-color: #667eea;
+  background-color: #f9fafb;
+}
+
+.register-attendance__user-item--selected {
+  border-color: #667eea;
+  background-color: #eef2ff;
+}
+
+.register-attendance__user-item input[type="radio"] {
+  cursor: pointer;
+}
+
+.register-attendance__user-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.register-attendance__user-id {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+/* Sessions List */
+.register-attendance__sessions-list {
+  max-height: 400px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.register-attendance__session-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background-color: white;
+}
+
+.register-attendance__session-item:hover {
+  border-color: #667eea;
+  background-color: #f9fafb;
+}
+
+.register-attendance__session-item--selected {
+  border-color: #667eea;
+  background-color: #eef2ff;
+}
+
+.register-attendance__session-item input[type="checkbox"] {
+  cursor: pointer;
+}
+
+.register-attendance__session-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.register-attendance__session-date {
+  font-size: 0.875rem;
+  color: #6b7280;
+}
+
+.register-attendance__session-badges {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+/* Empty State */
+.register-attendance__empty {
+  text-align: center;
+  color: #6b7280;
+  padding: 2rem;
+  font-style: italic;
+}
+
+/* Actions */
+.register-attendance__actions {
+  position: sticky;
+  bottom: 1rem;
+}
+
+.register-attendance__summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .register-attendance__summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.register-attendance__summary-info {
+  flex: 1;
+  font-size: 0.875rem;
+  color: #374151;
+}
+
+.register-attendance__summary-empty {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Scrollbar styling */
+.register-attendance__user-list::-webkit-scrollbar,
+.register-attendance__sessions-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.register-attendance__user-list::-webkit-scrollbar-track,
+.register-attendance__sessions-list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.register-attendance__user-list::-webkit-scrollbar-thumb,
+.register-attendance__sessions-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.register-attendance__user-list::-webkit-scrollbar-thumb:hover,
+.register-attendance__sessions-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

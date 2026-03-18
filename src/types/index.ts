@@ -239,3 +239,29 @@ export interface DeleteGroupResponse {
   message: string;
   groupId: string;
 }
+
+// Manual Attendance Registration types
+export interface RegisterAttendanceRequest {
+  userId: string;
+  sessionIds: string[];
+}
+
+export interface RegisteredSession {
+  sessionId: string;
+  sessionName: string;
+  date: string;
+}
+
+export interface RegisterAttendanceResponse {
+  message: string;
+  userId: string;
+  userName: string;
+  registered: number;
+  alreadyRegistered: number;
+  flowersAdded: number;
+  totalFlowers: number;
+  details: {
+    registered: RegisteredSession[];
+    alreadyRegistered: RegisteredSession[];
+  };
+}

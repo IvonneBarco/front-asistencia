@@ -87,6 +87,12 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({ isAdmin }) => {
               >
                 🎯 Grupos
               </button>
+              <button
+                className="nav-menu__item"
+                onClick={() => handleNavigate('/admin/register-attendance')}
+              >
+                ✏️ Registrar Asistencias
+              </button>
             </>
           )}
           <div className="nav-menu__divider" />

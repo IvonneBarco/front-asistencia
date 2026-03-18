@@ -29,6 +29,8 @@ import type {
   UpdateGroupResponse,
   DeleteGroupResponse,
   UsersListResponse,
+  RegisterAttendanceRequest,
+  RegisterAttendanceResponse,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
@@ -133,7 +135,7 @@ class ApiClient {
 
   // User endpoints
   async getCurrentUser(): Promise<User> {
-    const response = await this.request<ApiResponse<User>>('/me', {
+    const response = await this.request<ApiResponse<User>>('/auth/me', {
       method: 'GET',
     });
     return response.data;
@@ -161,6 +163,10 @@ class ApiClient {
       }
     );
     return response.data;
+  }
+
+  async getAllSessions(): Promise<Session[]> {
+    return this.getSessions();
   }
 
   async getSessionQR(sessionId: string): Promise<SessionQRResponse> {
@@ -336,6 +342,20 @@ class ApiClient {
       `/groups/${groupId}`,
       {
         method: 'DELETE',
+      }
+    );
+    return response.data;
+  }
+
+  // Manual Attendance Registration
+  async registerAttendanceManually(
+    data: RegisterAttendanceRequest
+  ): Promise<RegisterAttendanceResponse> {
+    const response = await this.request<ApiResponse<RegisterAttendanceResponse>>(
+      '/admin/attendance/register',
+      {
+        method: 'POST',
+        body: JSON.stringify(data),
       }
     );
     return response.data;

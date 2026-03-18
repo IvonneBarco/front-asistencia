@@ -12,6 +12,7 @@ import { MyGroup } from './views/MyGroup';
 import { AdminSessions } from './views/AdminSessions';
 import { AdminUsers } from './views/AdminUsers';
 import { AdminGroups } from './views/AdminGroups';
+import { RegisterAttendance } from './views/RegisterAttendance';
 import './styles/global.css';
 
 const queryClient = new QueryClient({
@@ -173,6 +174,14 @@ function App() {
               element={
                 <AdminRoute>
                   <AdminGroups />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/register-attendance"
+              element={
+                <AdminRoute>
+                  <RegisterAttendance />
                 </AdminRoute>
               }
             />
