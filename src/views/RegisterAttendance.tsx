@@ -4,7 +4,7 @@ import { apiClient } from '../services/api';
 import { TopBar } from '../components/TopBar';
 import { Card, Badge, Button } from '../components/ui';
 import { ConfirmModal } from '../components/ConfirmModal';
-import type { User, Session, RegisterAttendanceRequest } from '../types';
+import type { Session, RegisterAttendanceRequest } from '../types';
 import './RegisterAttendance.css';
 
 export const RegisterAttendance: React.FC = () => {
