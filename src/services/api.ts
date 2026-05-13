@@ -53,7 +53,7 @@ class ApiClient {
     const token = this.getAuthToken();
     
     const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json; charset=utf-8',
     };
 
     if (token) {
