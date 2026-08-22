@@ -12,6 +12,7 @@ interface AuthContextValue {
   login: (credentials: LoginRequest) => Promise<void>;
   loginWithIdentification: (credentials: LoginIdentificationRequest) => Promise<void>;
   logout: () => void;
+  updateUser: (user: User) => void;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -126,6 +127,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     queryClient.clear();
   };
 
+  const updateUser = (updatedUser: User) => {
+    localStorage.setItem('user_data', JSON.stringify(updatedUser));
+    setUser(updatedUser);
+  };
+
   const value: AuthContextValue = {
     user,
     isLoading,
@@ -133,6 +139,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     login,
     loginWithIdentification,
     logout,
+    updateUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

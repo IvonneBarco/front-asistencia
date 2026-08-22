@@ -35,6 +35,21 @@ import type {
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
 
+export const resolveAssetUrl = (assetPath?: string | null) => {
+  if (!assetPath) {
+    return undefined;
+  }
+
+  if (/^https?:\/\//i.test(assetPath)) {
+    return assetPath;
+  }
+
+  const apiOrigin = API_BASE_URL.replace(/\/api\/?$/, '');
+  const normalizedPath = assetPath.startsWith('/') ? assetPath : `/${assetPath}`;
+
+  return `${apiOrigin}${normalizedPath}`;
+};
+
 class ApiClient {
   private baseURL: string;
 
@@ -141,6 +156,28 @@ class ApiClient {
     return response.data;
   }
 
+  async uploadOwnPhoto(file: File): Promise<User> {
+    const token = this.getAuthToken();
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(`${this.baseURL}/auth/me/photo`, {
+      method: 'POST',
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Error desconocido' }));
+      throw new Error(error.message || `Error ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.data;
+  }
+
   // Admin Session endpoints
   async createSession(
     data: CreateSessionRequest
@@ -225,6 +262,38 @@ class ApiClient {
 
     const result = await response.json();
     return result.data;
+  }
+
+  async uploadUserPhoto(userId: string, file: File): Promise<User> {
+    const token = this.getAuthToken();
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(`${this.baseURL}/admin/users/${userId}/photo`, {
+      method: 'POST',
+      headers: {
+        ...(token && { Authorization: `Bearer ${token}` }),
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({ message: 'Error desconocido' }));
+      throw new Error(error.message || `Error ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.data;
+  }
+
+  async getUserPhoto(userId: string): Promise<{ userId: string; avatar: string | null; hasPhoto: boolean }> {
+    const response = await this.request<ApiResponse<{ userId: string; avatar: string | null; hasPhoto: boolean }>>(
+      `/admin/users/${userId}/photo`,
+      {
+        method: 'GET',
+      }
+    );
+    return response.data;
   }
 
   async getAllUsers(): Promise<UsersListResponse> {

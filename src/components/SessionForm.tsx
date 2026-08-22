@@ -16,8 +16,11 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, isLoading })
   const [endTime, setEndTime] = useState('');
   const [error, setError] = useState('');
 
-  // Obtener fecha mínima (hoy) en formato YYYY-MM-DD
-  const today = new Date().toISOString().split('T')[0];
+  // Obtener la fecha local de hoy para no adelantarla por conversión UTC.
+  const now = new Date();
+  const today = [now.getFullYear(), now.getMonth() + 1, now.getDate()]
+    .map((part) => String(part).padStart(2, '0'))
+    .join('-');
 
   const validateForm = (): boolean => {
     if (!name || name.length < 3) {
