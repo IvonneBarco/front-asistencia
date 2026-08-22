@@ -107,6 +107,37 @@ export interface DeactivateSessionResponse {
   sessionId: string;
 }
 
+export type SaintName = 'Rosa Mística' | 'Medalla Milagrosa' | 'Sagrado Corazón';
+
+export interface SaintLoan {
+  id: string;
+  saint: SaintName;
+  createdAt: string;
+  user?: { id: string; name: string; identification?: string };
+  session?: { id: string; sessionId: string; name: string };
+}
+
+export interface SessionSaintLoansResponse {
+  session: { id: string; sessionId: string; name: string };
+  catalog: SaintName[];
+  loans: SaintLoan[];
+}
+
+export interface SaintLoanHistoryResponse {
+  catalog: SaintName[];
+  loans: SaintLoan[];
+  counts: Array<{
+    userId: string;
+    userName: string;
+    saints: Record<SaintName, number>;
+  }>;
+}
+
+export interface CreateSaintLoanRequest {
+  userId: string;
+  saint: SaintName;
+}
+
 // Bulk user creation types
 export interface BulkUserInput {
   name: string;

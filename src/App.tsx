@@ -13,6 +13,7 @@ import { AdminSessions } from './views/AdminSessions';
 import { AdminUsers } from './views/AdminUsers';
 import { AdminGroups } from './views/AdminGroups';
 import { RegisterAttendance } from './views/RegisterAttendance';
+import { AdminSaintLoans } from './views/AdminSaintLoans';
 import { Profile } from './views/Profile';
 import './styles/global.css';
 
@@ -191,6 +192,14 @@ function App() {
               element={
                 <AdminRoute>
                   <RegisterAttendance />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/saint-loans"
+              element={
+                <AdminRoute>
+                  <AdminSaintLoans />
                 </AdminRoute>
               }
             />
