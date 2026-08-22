@@ -7,6 +7,7 @@ import type {
   JoinGroupRequest,
   CreateGroupRequest,
   UpdateGroupRequest,
+  CreateSaintLoanRequest,
 } from '../types';
 
 // Hook para obtener el leaderboard
@@ -94,6 +95,34 @@ export const useDeactivateSession = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sessions'] });
     },
+  });
+};
+
+export const useSessionSaintLoans = (sessionId: string | null) => {
+  return useQuery({
+    queryKey: ['session-saint-loans', sessionId],
+    queryFn: () => apiClient.getSessionSaintLoans(sessionId!),
+    enabled: !!sessionId,
+  });
+};
+
+export const useRegisterSaintLoan = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ sessionId, data }: { sessionId: string; data: CreateSaintLoanRequest }) =>
+      apiClient.registerSaintLoan(sessionId, data),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['session-saint-loans', variables.sessionId] });
+      queryClient.invalidateQueries({ queryKey: ['saint-loan-history'] });
+    },
+  });
+};
+
+export const useSaintLoanHistory = () => {
+  return useQuery({
+    queryKey: ['saint-loan-history'],
+    queryFn: () => apiClient.getSaintLoanHistory(),
   });
 };
 
