@@ -31,6 +31,9 @@ import type {
   UsersListResponse,
   RegisterAttendanceRequest,
   RegisterAttendanceResponse,
+  CreateSaintLoanRequest,
+  SessionSaintLoansResponse,
+  SaintLoanHistoryResponse,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
@@ -224,6 +227,30 @@ class ApiClient {
       {
         method: 'PUT',
       }
+    );
+    return response.data;
+  }
+
+  async getSessionSaintLoans(sessionId: string): Promise<SessionSaintLoansResponse> {
+    const response = await this.request<ApiResponse<SessionSaintLoansResponse>>(
+      `/admin/sessions/${sessionId}/saint-loans`, { method: 'GET' }
+    );
+    return response.data;
+  }
+
+  async registerSaintLoan(sessionId: string, data: CreateSaintLoanRequest) {
+    const response = await this.request<ApiResponse<unknown>>(
+      `/admin/sessions/${sessionId}/saint-loans`, {
+        method: 'POST',
+        body: JSON.stringify(data),
+      }
+    );
+    return response.data;
+  }
+
+  async getSaintLoanHistory(): Promise<SaintLoanHistoryResponse> {
+    const response = await this.request<ApiResponse<SaintLoanHistoryResponse>>(
+      '/admin/saint-loans/history', { method: 'GET' }
     );
     return response.data;
   }

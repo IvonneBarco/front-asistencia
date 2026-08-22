@@ -22,8 +22,19 @@ export const AdminUsers: React.FC = () => {
   const [csvResult, setCsvResult] = useState<CSVImportResponse | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [uploadingPhotoUserId, setUploadingPhotoUserId] = useState<string | null>(null);
+  const [userSearch, setUserSearch] = useState('');
 
   const users = Array.isArray(usersData) ? usersData : [];
+  const normalizedSearch = userSearch.trim().toLocaleLowerCase();
+  const filteredUsers = users.filter((user) => {
+    if (!normalizedSearch) {
+      return true;
+    }
+
+    return [user.name, user.identification, user.email]
+      .filter(Boolean)
+      .some((value) => value!.toLocaleLowerCase().includes(normalizedSearch));
+  });
 
   const handleCreateUsers = async (users: BulkUserInput[]) => {
     try {
@@ -154,8 +165,28 @@ export const AdminUsers: React.FC = () => {
                   No hay usuarios registrados todavía.
                 </p>
               ) : (
-                <div className="admin-users__list">
-                  {users.map((user) => (
+                <>
+                  <div className="admin-users__search-wrapper">
+                    <label htmlFor="admin-users-search" className="admin-users__search-label">
+                      Buscar usuario
+                    </label>
+                    <input
+                      id="admin-users-search"
+                      type="search"
+                      value={userSearch}
+                      onChange={(event) => setUserSearch(event.target.value)}
+                      placeholder="Nombre, identificación o correo"
+                      className="admin-users__search"
+                    />
+                  </div>
+
+                  {filteredUsers.length === 0 ? (
+                    <p className="admin-users__empty">
+                      No se encontraron usuarios con “{userSearch}”.
+                    </p>
+                  ) : (
+                    <div className="admin-users__list">
+                  {filteredUsers.map((user) => (
                     <div key={user.id} className="admin-users__list-item">
                       <div className="admin-users__avatar-block">
                         <div className="admin-users__avatar">
@@ -221,7 +252,9 @@ export const AdminUsers: React.FC = () => {
                       </Button>
                     </div>
                   ))}
-                </div>
+                    </div>
+                  )}
+                </>
               )}
             </>
           ) : activeTab === 'form' ? (
@@ -262,7 +295,7 @@ export const AdminUsers: React.FC = () => {
               <li><strong>Valores de role:</strong> user o admin</li>
             </ul>
             
-            <div style={{ marginTop: '1rem', padding: '0.75rem', background: 'var(--color-background)', borderRadius: '6px', fontFamily: 'monospace', fontSize: '0.875rem' }}>
+            <div className="admin-users__csv-example">
               <div>name,email,pin,role</div>
               <div>María García,maria@emaus.com,1234,user</div>
               <div>Ana Martínez,ana@emaus.com,5678,user</div>
