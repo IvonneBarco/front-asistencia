@@ -42,6 +42,18 @@ export const useCurrentUser = () => {
   });
 };
 
+export const useUploadOwnPhoto = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (file: File) => apiClient.uploadOwnPhoto(file),
+    onSuccess: (user) => {
+      localStorage.setItem('user_data', JSON.stringify(user));
+      queryClient.setQueryData(['user'], user);
+    },
+  });
+};
+
 // Hook para obtener sesiones (admin)
 export const useSessions = () => {
   return useQuery({
@@ -106,6 +118,20 @@ export const useUploadUsersCSV = () => {
     mutationFn: (file: File) => apiClient.uploadUsersCSV(file),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+};
+
+// Hook para subir fotografía de usuario (admin)
+export const useUploadUserPhoto = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ userId, file }: { userId: string; file: File }) =>
+      apiClient.uploadUserPhoto(userId, file),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
     },
   });
 };

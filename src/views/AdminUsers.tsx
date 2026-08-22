@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useCreateBulkUsers, useUploadUsersCSV, useGetAllUsers } from '../hooks/useApi';
+import { useCreateBulkUsers, useUploadUsersCSV, useUploadUserPhoto, useGetAllUsers } from '../hooks/useApi';
 import { Card, Button, Badge } from '../components/ui';
 import { BulkUserForm } from '../components/BulkUserForm';
 import { CSVUpload } from '../components/CSVUpload';
 import { TopBar } from '../components/TopBar';
 import { GroupAssignModal } from '../components/GroupAssignModal';
 import type { BulkUserInput, CSVImportResponse, User } from '../types';
+import { resolveAssetUrl } from '../services/api';
 import './AdminUsers.css';
 
 type TabType = 'form' | 'csv' | 'list';
@@ -13,12 +14,14 @@ type TabType = 'form' | 'csv' | 'list';
 export const AdminUsers: React.FC = () => {
   const createBulkUsers = useCreateBulkUsers();
   const uploadCSV = useUploadUsersCSV();
+  const uploadUserPhoto = useUploadUserPhoto();
   const { data: usersData, isLoading: loadingUsers } = useGetAllUsers();
   const [activeTab, setActiveTab] = useState<TabType>('list');
   const [showSuccess, setShowSuccess] = useState(false);
   const [createdCount, setCreatedCount] = useState(0);
   const [csvResult, setCsvResult] = useState<CSVImportResponse | null>(null);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [uploadingPhotoUserId, setUploadingPhotoUserId] = useState<string | null>(null);
 
   const users = Array.isArray(usersData) ? usersData : [];
 
@@ -41,6 +44,21 @@ export const AdminUsers: React.FC = () => {
       setCsvResult(result);
     } catch (error) {
       console.error('Error uploading CSV:', error);
+    }
+  };
+
+  const handlePhotoUpload = async (userId: string, file?: File) => {
+    if (!file) {
+      return;
+    }
+
+    try {
+      setUploadingPhotoUserId(userId);
+      await uploadUserPhoto.mutateAsync({ userId, file });
+    } catch (error) {
+      console.error('Error uploading user photo:', error);
+    } finally {
+      setUploadingPhotoUserId(null);
     }
   };
 
@@ -110,19 +128,19 @@ export const AdminUsers: React.FC = () => {
               className={`admin-users__tab ${activeTab === 'list' ? 'admin-users__tab--active' : ''}`}
               onClick={() => setActiveTab('list')}
             >
-              User
+              Usuarios
             </button>
             <button
               className={`admin-users__tab ${activeTab === 'form' ? 'admin-users__tab--active' : ''}`}
               onClick={() => setActiveTab('form')}
             >
-              Create
+              Registrar
             </button>
             <button
               className={`admin-users__tab ${activeTab === 'csv' ? 'admin-users__tab--active' : ''}`}
               onClick={() => setActiveTab('csv')}
             >
-              Import
+              Importar
             </button>
           </div>
 
@@ -139,6 +157,43 @@ export const AdminUsers: React.FC = () => {
                 <div className="admin-users__list">
                   {users.map((user) => (
                     <div key={user.id} className="admin-users__list-item">
+                      <div className="admin-users__avatar-block">
+                        <div className="admin-users__avatar">
+                          {user.avatar ? (
+                            <img
+                              src={resolveAssetUrl(user.avatar)}
+                              alt={`Fotografía de ${user.name}`}
+                              className="admin-users__avatar-image"
+                            />
+                          ) : (
+                            <div className="admin-users__avatar-placeholder">
+                              <span>Sin foto</span>
+                            </div>
+                          )}
+                        </div>
+                        <div className="admin-users__photo-actions">
+                          <label className="admin-users__photo-upload">
+                            <span>
+                              {uploadingPhotoUserId === user.id
+                                ? 'Subiendo...'
+                                : 'Seleccionar fotografía'}
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="admin-users__photo-input"
+                              onChange={(event) => {
+                                void handlePhotoUpload(user.id, event.target.files?.[0]);
+                                event.target.value = '';
+                              }}
+                              disabled={uploadingPhotoUserId === user.id}
+                            />
+                          </label>
+                          <p className="admin-users__photo-hint">
+                            JPG, PNG o WEBP. Máximo 5 MB. Se optimiza automáticamente.
+                          </p>
+                        </div>
+                      </div>
                       <div className="admin-users__user-info">
                         <div>
                           <p className="admin-users__user-name">{user.name}</p>
@@ -197,6 +252,7 @@ export const AdminUsers: React.FC = () => {
               <li>El correo electrónico debe ser único por usuario</li>
               <li>Puedes agregar múltiples usuarios a la vez</li>
               <li>Los usuarios creados podrán iniciar sesión inmediatamente</li>
+              <li>Cada usuario puede actualizar su fotografía desde Mi perfil</li>
             </ul>
             
             <h3 className="admin-users__info-title" style={{ marginTop: '1rem' }}>📄 Formato CSV</h3>

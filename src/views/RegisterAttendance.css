@@ -1,6 +1,6 @@
 .register-attendance {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: var(--color-background);
   padding-bottom: 2rem;
 }
 
@@ -13,18 +13,20 @@
 .register-attendance__header {
   text-align: center;
   margin-bottom: 2rem;
-  color: white;
+  padding: 0 var(--spacing-lg);
 }
 
 .register-attendance__title {
-  font-size: 2rem;
-  font-weight: bold;
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
   margin-bottom: 0.5rem;
 }
 
 .register-attendance__subtitle {
-  font-size: 1rem;
-  opacity: 0.9;
+  font-size: var(--font-size-base);
+  color: var(--color-text-secondary);
 }
 
 .register-attendance__content {
@@ -47,13 +49,13 @@
 }
 
 .register-attendance__result--success {
-  border-left-color: #10b981;
-  background-color: #d1fae5;
+  border-left-color: var(--color-success);
+  background-color: rgba(39, 174, 96, 0.1);
 }
 
 .register-attendance__result--error {
-  border-left-color: #ef4444;
-  background-color: #fee2e2;
+  border-left-color: var(--color-error);
+  background-color: rgba(214, 69, 69, 0.1);
 }
 
 .register-attendance__result-header {
@@ -112,23 +114,26 @@
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 1rem;
-  color: #1f2937;
+  color: var(--color-text-primary);
 }
 
 /* Search Input */
 .register-attendance__search {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   font-size: 1rem;
   margin-bottom: 1rem;
-  transition: border-color 0.2s;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .register-attendance__search:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--color-primary-light);
+  box-shadow: 0 0 0 3px rgba(139, 90, 62, 0.12);
 }
 
 /* User List */
@@ -145,21 +150,21 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s;
-  background-color: white;
+  background-color: var(--color-surface);
 }
 
 .register-attendance__user-item:hover {
-  border-color: #667eea;
-  background-color: #f9fafb;
+  border-color: var(--color-primary-light);
+  background-color: var(--color-surface-hover);
 }
 
 .register-attendance__user-item--selected {
-  border-color: #667eea;
-  background-color: #eef2ff;
+  border-color: var(--color-primary);
+  background-color: rgba(107, 58, 30, 0.07);
 }
 
 .register-attendance__user-item input[type="radio"] {
@@ -176,7 +181,7 @@
 
 .register-attendance__user-id {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-secondary);
 }
 
 /* Sessions List */
@@ -193,21 +198,21 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem;
-  border: 2px solid #e5e7eb;
-  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s;
-  background-color: white;
+  background-color: var(--color-surface);
 }
 
 .register-attendance__session-item:hover {
-  border-color: #667eea;
-  background-color: #f9fafb;
+  border-color: var(--color-primary-light);
+  background-color: var(--color-surface-hover);
 }
 
 .register-attendance__session-item--selected {
-  border-color: #667eea;
-  background-color: #eef2ff;
+  border-color: var(--color-primary);
+  background-color: rgba(107, 58, 30, 0.07);
 }
 
 .register-attendance__session-item input[type="checkbox"] {
@@ -223,7 +228,7 @@
 
 .register-attendance__session-date {
   font-size: 0.875rem;
-  color: #6b7280;
+  color: var(--color-text-secondary);
 }
 
 .register-attendance__session-badges {
@@ -235,7 +240,7 @@
 /* Empty State */
 .register-attendance__empty {
   text-align: center;
-  color: #6b7280;
+  color: var(--color-text-secondary);
   padding: 2rem;
   font-style: italic;
 }
@@ -263,11 +268,11 @@
 .register-attendance__summary-info {
   flex: 1;
   font-size: 0.875rem;
-  color: #374151;
+  color: var(--color-text-primary);
 }
 
 .register-attendance__summary-empty {
-  color: #9ca3af;
+  color: var(--color-text-tertiary);
   font-style: italic;
 }
 
@@ -279,17 +284,17 @@
 
 .register-attendance__user-list::-webkit-scrollbar-track,
 .register-attendance__sessions-list::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--color-surface-hover);
   border-radius: 4px;
 }
 
 .register-attendance__user-list::-webkit-scrollbar-thumb,
 .register-attendance__sessions-list::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #D1C4BA;
   border-radius: 4px;
 }
 
 .register-attendance__user-list::-webkit-scrollbar-thumb:hover,
 .register-attendance__sessions-list::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: var(--color-primary-light);
 }
