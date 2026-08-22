@@ -66,6 +66,12 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({ isAdmin }) => {
           >
             👥 Mi Grupo
           </button>
+          <button
+            className="nav-menu__item"
+            onClick={() => handleNavigate('/profile')}
+          >
+            👤 Mi perfil
+          </button>
           {isAdmin && (
             <>
               <div className="nav-menu__divider" />

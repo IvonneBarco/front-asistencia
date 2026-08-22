@@ -13,6 +13,7 @@ import { AdminSessions } from './views/AdminSessions';
 import { AdminUsers } from './views/AdminUsers';
 import { AdminGroups } from './views/AdminGroups';
 import { RegisterAttendance } from './views/RegisterAttendance';
+import { Profile } from './views/Profile';
 import './styles/global.css';
 
 const queryClient = new QueryClient({
@@ -150,6 +151,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MyGroup />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
                 </ProtectedRoute>
               }
             />
