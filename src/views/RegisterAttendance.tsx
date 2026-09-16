@@ -5,6 +5,7 @@ import { TopBar } from '../components/TopBar';
 import { Card, Badge, Button } from '../components/ui';
 import { ConfirmModal } from '../components/ConfirmModal';
 import type { Session, RegisterAttendanceRequest } from '../types';
+import { normalizeText } from '../utils/text';
 import './RegisterAttendance.css';
 
 export const RegisterAttendance: React.FC = () => {
@@ -64,9 +65,10 @@ export const RegisterAttendance: React.FC = () => {
   });
 
   // Filtrar usuarios
+  const normalizedUserSearch = normalizeText(searchUser);
   const filteredUsers = users?.filter((user) =>
-    user.name?.toLowerCase().includes(searchUser.toLowerCase()) ||
-    user.identification?.toLowerCase().includes(searchUser.toLowerCase())
+    normalizeText(user.name).includes(normalizedUserSearch) ||
+    normalizeText(user.identification).includes(normalizedUserSearch)
   ) || [];
 
   // Filtrar sesiones
