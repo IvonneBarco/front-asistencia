@@ -72,6 +72,15 @@ export const NavigationMenu: React.FC<NavigationMenuProps> = ({ isAdmin }) => {
           >
             👤 Mi perfil
           </button>
+          <a
+            className="nav-menu__item"
+            href="https://ivonnebarco.github.io/biblioteca-emaus-la-catedral/"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setIsOpen(false)}
+          >
+            📚 Biblioteca
+          </a>
           {isAdmin && (
             <>
               <div className="nav-menu__divider" />

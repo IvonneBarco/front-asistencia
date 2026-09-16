@@ -152,6 +152,14 @@ export const Jardin: React.FC = () => {
           <p className="jardin__subtitle">
             Reconocimiento a la constancia y presencia de nuestra comunidad
           </p>
+          <a
+            className="jardin__library-link"
+            href="https://ivonnebarco.github.io/biblioteca-emaus-la-catedral/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            📚 Visitar Biblioteca
+          </a>
         </header>
 
         
