@@ -7,6 +7,7 @@ import { TopBar } from '../components/TopBar';
 import { GroupAssignModal } from '../components/GroupAssignModal';
 import type { BulkUserInput, CSVImportResponse, User } from '../types';
 import { resolveAssetUrl } from '../services/api';
+import { normalizeText } from '../utils/text';
 import './AdminUsers.css';
 
 type TabType = 'form' | 'csv' | 'list';
@@ -25,7 +26,7 @@ export const AdminUsers: React.FC = () => {
   const [userSearch, setUserSearch] = useState('');
 
   const users = Array.isArray(usersData) ? usersData : [];
-  const normalizedSearch = userSearch.trim().toLocaleLowerCase();
+  const normalizedSearch = normalizeText(userSearch.trim());
   const filteredUsers = users.filter((user) => {
     if (!normalizedSearch) {
       return true;
@@ -33,7 +34,7 @@ export const AdminUsers: React.FC = () => {
 
     return [user.name, user.identification, user.email]
       .filter(Boolean)
-      .some((value) => value!.toLocaleLowerCase().includes(normalizedSearch));
+      .some((value) => normalizeText(value).includes(normalizedSearch));
   });
 
   const handleCreateUsers = async (users: BulkUserInput[]) => {

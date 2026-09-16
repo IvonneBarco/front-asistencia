@@ -9,6 +9,7 @@ import {
 import { TopBar } from '../components/TopBar';
 import { Badge, Button, Card } from '../components/ui';
 import type { SaintName } from '../types';
+import { normalizeText } from '../utils/text';
 import './AdminSaintLoans.css';
 
 const SAINTS: SaintName[] = ['Rosa Mística', 'Medalla Milagrosa', 'Sagrado Corazón'];
@@ -139,8 +140,8 @@ export const AdminSaintLoans: React.FC = () => {
                               {users
                                 .filter((user) => user.role !== 'admin')
                                 .filter((user) => {
-                                  const search = userSearches[saint].trim().toLocaleLowerCase();
-                                  return !search || `${user.name} ${user.identification}`.toLocaleLowerCase().includes(search);
+                                  const search = normalizeText(userSearches[saint].trim());
+                                  return !search || normalizeText(`${user.name} ${user.identification}`).includes(search);
                                 })
                                 .map((user) => (
                                   <button
