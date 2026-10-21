@@ -141,6 +141,29 @@
     align-items: stretch;
   }
 
+  @media (min-width: 1024px) {
+    .admin-sessions__container {
+      max-width: 1400px;
+      padding-inline: var(--spacing-xl);
+      display: grid;
+      grid-template-columns: minmax(300px, 0.7fr) minmax(0, 1.3fr);
+      align-items: start;
+    }
+
+    .admin-sessions__header {
+      grid-column: 1 / -1;
+    }
+
+    .admin-sessions__form {
+      max-width: none;
+      padding-inline: 0;
+    }
+
+    .admin-sessions__list-section {
+      padding-inline: 0;
+    }
+  }
+
   .admin-sessions__title {
     font-size: var(--font-size-2xl);
   }

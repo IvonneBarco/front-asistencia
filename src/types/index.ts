@@ -64,14 +64,28 @@ export interface LeaderboardEntry {
     id: string;
     name: string;
     avatar?: string;
+    group?: {
+      id: string;
+      name: string;
+    } | null;
   };
   flores: number;
+  attendances: number;
+  participation: number | null;
   isCurrentUser?: boolean;
 }
 
 export interface LeaderboardResponse {
   entries: LeaderboardEntry[];
   currentUser?: LeaderboardEntry;
+  eligibleSessions: number;
+  totalAttendances: number;
+  sessions: Array<{
+    id: string;
+    name: string;
+    startsAt: string;
+    attendances: number;
+  }>;
 }
 
 // Session types

@@ -1,0 +1,13 @@
+.attendance-ranking { min-height: 100vh; background: var(--color-background); }
+.attendance-ranking__container { width: min(100% - 2rem, 1100px); min-width: 0; margin: 0 auto; padding: var(--spacing-xl) 0 var(--spacing-3xl); }
+.attendance-ranking__header { margin-bottom: var(--spacing-xl); text-align: center; }
+.attendance-ranking__header h1 { color: var(--color-primary); }
+.attendance-ranking__header p { color: var(--color-text-secondary); }
+.attendance-ranking__eyebrow { margin-bottom: var(--spacing-sm); color: var(--color-primary) !important; font-weight: var(--font-weight-semibold); }
+.attendance-ranking__card h2, .attendance-ranking__personal h2 { margin-bottom: var(--spacing-xs); }
+.attendance-ranking__hint { margin-bottom: var(--spacing-lg); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.attendance-ranking__personal { display: flex; flex-direction: column; gap: var(--spacing-sm); margin-top: var(--spacing-lg); text-align: center; }
+.attendance-ranking__personal strong { font-size: var(--font-size-2xl); color: var(--color-primary); }
+.attendance-ranking__personal span, .attendance-ranking__personal p { color: var(--color-text-secondary); }
+.attendance-ranking__state { padding: var(--spacing-2xl); text-align: center; color: var(--color-text-secondary); }
+.attendance-ranking__state--error { color: var(--color-error); }

@@ -33,4 +33,5 @@
 .admin-saint-loans th { color: var(--color-text-secondary); font-weight: var(--font-weight-semibold); }
 .admin-saint-loans td:not(:first-child), .admin-saint-loans th:not(:first-child) { text-align: center; }
 .admin-saint-loans__empty { margin: 1rem 0 .25rem; color: var(--color-text-secondary); text-align: center; }
+@media (min-width: 768px) and (max-width: 1023px) { .admin-saint-loans__saints { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 768px) { .admin-saint-loans__container { padding: var(--spacing-lg) var(--spacing-md) 3rem; } .admin-saint-loans__header { flex-direction: column; } .admin-saint-loans__capacity { align-items: flex-start; } .admin-saint-loans__saints { grid-template-columns: 1fr; } }
