@@ -10,6 +10,13 @@
   padding: 2rem 1rem;
 }
 
+@media (min-width: 1024px) {
+  .register-attendance__container {
+    max-width: 1440px;
+    padding-inline: var(--spacing-xl);
+  }
+}
+
 .register-attendance__header {
   text-align: center;
   margin-bottom: 2rem;

@@ -11,13 +11,29 @@ import type {
 } from '../types';
 
 // Hook para obtener el leaderboard
-export const useLeaderboard = () => {
+export const useLeaderboard = (filters?: {
+  from?: string;
+  to?: string;
+  groupId?: string;
+}) => {
   return useQuery({
-    queryKey: ['leaderboard'],
-    queryFn: () => apiClient.getLeaderboard(),
+    queryKey: ['leaderboard', filters],
+    queryFn: () => apiClient.getLeaderboard(filters),
     refetchOnMount: 'always',
     refetchOnWindowFocus: true,
     staleTime: 0,
+  });
+};
+
+export const useAttendanceReport = (filters?: {
+  from?: string;
+  to?: string;
+  groupId?: string;
+}) => {
+  return useQuery({
+    queryKey: ['attendance-report', filters],
+    queryFn: () => apiClient.getAttendanceReport(filters),
+    staleTime: 60 * 1000,
   });
 };
 

@@ -15,6 +15,8 @@ import { AdminGroups } from './views/AdminGroups';
 import { RegisterAttendance } from './views/RegisterAttendance';
 import { AdminSaintLoans } from './views/AdminSaintLoans';
 import { Profile } from './views/Profile';
+import { AttendanceRanking } from './views/AttendanceRanking';
+import { AdminAttendanceReport } from './views/AdminAttendanceReport';
 import './styles/global.css';
 
 const queryClient = new QueryClient({
@@ -161,6 +163,22 @@ function App() {
                 <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ranking"
+              element={
+                <ProtectedRoute>
+                  <AttendanceRanking />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/attendance-report"
+              element={
+                <AdminRoute>
+                  <AdminAttendanceReport />
+                </AdminRoute>
               }
             />
             <Route

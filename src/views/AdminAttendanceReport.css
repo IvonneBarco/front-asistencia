@@ -1,0 +1,32 @@
+.admin-attendance-report__container { width: 100%; max-width: none; min-width: 0; padding-inline: clamp(1rem, 2.5vw, 3rem); }
+.admin-attendance-report__filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: var(--spacing-md); align-items: end; margin-bottom: var(--spacing-xl); min-width: 0; }
+.admin-attendance-report__filters label { display: flex; flex-direction: column; gap: var(--spacing-xs); color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.admin-attendance-report__filters input, .admin-attendance-report__filters select, .admin-attendance-report__actions input { min-height: 2.75rem; padding: .5rem .7rem; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); color: var(--color-text-primary); }
+.admin-attendance-report__stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--spacing-md); margin-bottom: var(--spacing-xl); min-width: 0; }
+.admin-attendance-report__stats .card { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: var(--spacing-sm); row-gap: .15rem; min-height: 8rem; }
+.admin-attendance-report__stats span { color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.admin-attendance-report__stats strong { grid-column: 1 / -1; color: var(--color-primary); font-family: var(--font-family-heading); font-size: clamp(2rem, 3vw, 2.75rem); line-height: 1; }
+.admin-attendance-report__stat-icon { color: var(--color-primary-light) !important; font-size: 1.25rem !important; }
+.admin-attendance-report__list-header { display: flex; justify-content: space-between; gap: var(--spacing-md); align-items: end; margin-bottom: var(--spacing-lg); }
+.admin-attendance-report__list-header h2, .admin-attendance-report__sessions h2 { margin-bottom: var(--spacing-xs); }
+.admin-attendance-report__list-header p { color: var(--color-text-secondary); font-size: var(--font-size-sm); }
+.admin-attendance-report__actions { display: flex; gap: var(--spacing-sm); flex-wrap: wrap; min-width: 0; }
+.admin-attendance-report__actions input { min-width: min(16rem, 100%); }
+.admin-attendance-report__sessions { margin-top: var(--spacing-xl); }
+.admin-attendance-report__session-bar { display: grid; grid-template-columns: minmax(8rem, .8fr) minmax(5rem, 2fr) auto; align-items: center; gap: var(--spacing-md); padding: var(--spacing-sm) 0; border-bottom: 1px solid var(--color-border); }
+.admin-attendance-report__session-bar > span { overflow-wrap: anywhere; }
+.admin-attendance-report__session-bar > div { height: 8px; overflow: hidden; border-radius: var(--radius-full); background: #f2e9e5; }
+.admin-attendance-report__session-bar i { display: block; height: 100%; border-radius: inherit; background: #e9a5b5; }
+@media (max-width: 767px) {
+  .admin-attendance-report__filters, .admin-attendance-report__stats { grid-template-columns: 1fr; }
+  .admin-attendance-report__container { padding-inline: 1rem; }
+  .admin-attendance-report__list-header { align-items: stretch; flex-direction: column; }
+  .admin-attendance-report__actions { flex-direction: column; }
+  .admin-attendance-report__session-bar { grid-template-columns: 1fr auto; }
+  .admin-attendance-report__session-bar > div { grid-column: 1 / -1; grid-row: 2; }
+}
+@media (min-width: 768px) and (max-width: 1023px) { .admin-attendance-report__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) {
+  .admin-attendance-report__stats { grid-template-columns: repeat(4, minmax(180px, 1fr)); }
+  .admin-attendance-report__filters { grid-template-columns: repeat(3, minmax(180px, 1fr)) auto; }
+}

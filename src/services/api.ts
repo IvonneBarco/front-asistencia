@@ -141,12 +141,38 @@ class ApiClient {
   }
 
   // Leaderboard endpoints
-  async getLeaderboard(): Promise<LeaderboardResponse> {
+  async getLeaderboard(filters?: {
+    from?: string;
+    to?: string;
+    groupId?: string;
+  }): Promise<LeaderboardResponse> {
+    const params = new URLSearchParams();
+    if (filters?.from) params.set('from', filters.from);
+    if (filters?.to) params.set('to', filters.to);
+    if (filters?.groupId) params.set('groupId', filters.groupId);
+    const query = params.toString();
     const response = await this.request<ApiResponse<LeaderboardResponse>>(
-      '/leaderboard',
+      `/leaderboard${query ? `?${query}` : ''}`,
       {
         method: 'GET',
       }
+    );
+    return response.data;
+  }
+
+  async getAttendanceReport(filters?: {
+    from?: string;
+    to?: string;
+    groupId?: string;
+  }): Promise<LeaderboardResponse> {
+    const params = new URLSearchParams();
+    if (filters?.from) params.set('from', filters.from);
+    if (filters?.to) params.set('to', filters.to);
+    if (filters?.groupId) params.set('groupId', filters.groupId);
+    const query = params.toString();
+    const response = await this.request<ApiResponse<LeaderboardResponse>>(
+      `/leaderboard/report${query ? `?${query}` : ''}`,
+      { method: 'GET' },
     );
     return response.data;
   }

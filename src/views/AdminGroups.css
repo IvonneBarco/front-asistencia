@@ -305,6 +305,29 @@
     padding: var(--spacing-lg) 0;
   }
 
+  @media (min-width: 1024px) {
+    .admin-groups__container {
+      max-width: 1280px;
+      padding-inline: var(--spacing-xl);
+      display: grid;
+      grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+      align-items: start;
+    }
+
+    .admin-groups__header,
+    .admin-groups__loading,
+    .admin-groups__error,
+    .admin-groups__empty {
+      grid-column: 1 / -1;
+    }
+
+    .admin-groups__header,
+    .admin-groups__form-card,
+    .admin-groups__list-section {
+      margin-inline: 0;
+    }
+  }
+
   .admin-groups__header {
     flex-direction: column;
     align-items: stretch;

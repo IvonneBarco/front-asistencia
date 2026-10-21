@@ -23,6 +23,7 @@ body {
   background-color: var(--color-background);
   min-height: 100vh;
   min-height: 100dvh;
+  overflow-x: hidden;
 }
 
 #root {
@@ -111,6 +112,14 @@ svg {
   padding: 0 var(--spacing-md);
 }
 
+button,
+a,
+input,
+select,
+textarea {
+  min-width: 0;
+}
+
 @media (min-width: 768px) {
   .container {
     max-width: 900px;
@@ -121,5 +130,14 @@ svg {
 @media (min-width: 1024px) {
   .container {
     max-width: 1200px;
+  }
+
+  .topbar + * {
+    margin-left: var(--sidebar-width);
+    transition: margin-left var(--transition-base);
+  }
+
+  .topbar--collapsed + * {
+    margin-left: var(--sidebar-collapsed-width);
   }
 }
