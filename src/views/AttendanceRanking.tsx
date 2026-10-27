@@ -5,11 +5,16 @@ import { RankingPodium } from '../components/RankingPodium';
 import { RankingProgressList } from '../components/RankingProgressList';
 import { useLeaderboard } from '../hooks/useApi';
 import { useAuth } from '../context/AuthContext';
+import { getVisibleRankingEntries } from '../constants/rankingExclusions';
 import './AttendanceRanking.css';
 
 export const AttendanceRanking: React.FC = () => {
   const { user } = useAuth();
   const { data, isLoading, error } = useLeaderboard();
+  const visibleEntries = data ? getVisibleRankingEntries(data.entries) : [];
+  const visibleCurrentUser = data?.currentUser
+    ? visibleEntries.find((entry) => entry.user.id === data.currentUser?.user.id)
+    : undefined;
 
   return (
     <div className="attendance-ranking">
@@ -24,17 +29,17 @@ export const AttendanceRanking: React.FC = () => {
         {error && <p className="attendance-ranking__state attendance-ranking__state--error">No se pudo cargar la clasificación.</p>}
         {data && (
           <>
-            <RankingPodium entries={data.entries} />
+            <RankingPodium entries={visibleEntries} />
             <Card variant="elevated" padding="lg" className="attendance-ranking__card">
               <h2>Clasificación general</h2>
               <p className="attendance-ranking__hint">{data.eligibleSessions} encuentros considerados</p>
-              <RankingProgressList entries={data.entries} />
+              <RankingProgressList entries={visibleEntries} />
             </Card>
-            {data.currentUser && (
+            {visibleCurrentUser && (
               <Card variant="outlined" padding="lg" className="attendance-ranking__personal">
                 <h2>Mi participación</h2>
-                <strong>Posición #{data.currentUser.rank}</strong>
-                <span>{data.currentUser.attendances} asistencias{data.currentUser.participation !== null ? ` · ${data.currentUser.participation}%` : ''}</span>
+                <strong>Posición #{visibleCurrentUser.rank}</strong>
+                <span>{visibleCurrentUser.attendances} asistencias{visibleCurrentUser.participation !== null ? ` · ${visibleCurrentUser.participation}%` : ''}</span>
                 <p>Gracias por caminar y perseverar junto a nuestra comunidad.</p>
               </Card>
             )}

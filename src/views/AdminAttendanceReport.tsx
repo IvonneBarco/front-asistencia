@@ -5,6 +5,7 @@ import { RankingPodium } from '../components/RankingPodium';
 import { RankingProgressList } from '../components/RankingProgressList';
 import { useAllGroups, useAttendanceReport } from '../hooks/useApi';
 import { useAuth } from '../context/AuthContext';
+import { getVisibleRankingEntries } from '../constants/rankingExclusions';
 import './AttendanceRanking.css';
 import './AdminAttendanceReport.css';
 
@@ -14,11 +15,16 @@ export const AdminAttendanceReport: React.FC = () => {
   const [filters, setFilters] = useState({ from: '', to: '', groupId: '' });
   const { data, isLoading, error } = useAttendanceReport(filters);
   const [search, setSearch] = useState('');
+  const visibleEntries = useMemo(
+    () => (data ? getVisibleRankingEntries(data.entries) : []),
+    [data],
+  );
 
   const filteredEntries = useMemo(
-    () => data?.entries.filter((entry) => entry.user.name.toLowerCase().includes(search.toLowerCase())) || [],
-    [data, search],
+    () => visibleEntries.filter((entry) => entry.user.name.toLowerCase().includes(search.toLowerCase())),
+    [visibleEntries, search],
   );
+  const visibleTotalAttendances = visibleEntries.reduce((total, entry) => total + entry.attendances, 0);
 
   const exportCsv = () => {
     if (!data) return;
@@ -75,12 +81,12 @@ export const AdminAttendanceReport: React.FC = () => {
         {data && (
           <>
             <div className="admin-attendance-report__stats">
-              <Card padding="md"><span className="admin-attendance-report__stat-icon" aria-hidden="true">👥</span><span>Participantes</span><strong>{data.entries.length}</strong></Card>
+              <Card padding="md"><span className="admin-attendance-report__stat-icon" aria-hidden="true">👥</span><span>Participantes</span><strong>{visibleEntries.length}</strong></Card>
               <Card padding="md"><span className="admin-attendance-report__stat-icon" aria-hidden="true">📅</span><span>Encuentros</span><strong>{data.eligibleSessions}</strong></Card>
-              <Card padding="md"><span className="admin-attendance-report__stat-icon" aria-hidden="true">✓</span><span>Asistencias</span><strong>{data.totalAttendances}</strong></Card>
-              <Card padding="md"><span className="admin-attendance-report__stat-icon" aria-hidden="true">🌸</span><span>Participación global</span><strong>{data.eligibleSessions ? Math.round((data.totalAttendances / (data.entries.length * data.eligibleSessions)) * 10000) / 100 : 0}%</strong></Card>
+              <Card padding="md"><span className="admin-attendance-report__stat-icon" aria-hidden="true">✓</span><span>Asistencias</span><strong>{visibleTotalAttendances}</strong></Card>
+              <Card padding="md"><span className="admin-attendance-report__stat-icon" aria-hidden="true">🌸</span><span>Participación global</span><strong>{data.eligibleSessions && visibleEntries.length ? Math.round((visibleTotalAttendances / (visibleEntries.length * data.eligibleSessions)) * 10000) / 100 : 0}%</strong></Card>
             </div>
-            <RankingPodium entries={data.entries} />
+            <RankingPodium entries={visibleEntries} />
             <Card variant="elevated" padding="lg">
               <div className="admin-attendance-report__list-header">
                 <div><h2>Clasificación general</h2><p>Orden de competencia; los empates comparten posición.</p></div>
