@@ -15,6 +15,7 @@ import { AdminGroups } from './views/AdminGroups';
 import { RegisterAttendance } from './views/RegisterAttendance';
 import { AdminSaintLoans } from './views/AdminSaintLoans';
 import { Profile } from './views/Profile';
+import { UserProfile } from './views/UserProfile';
 import { AttendanceRanking } from './views/AttendanceRanking';
 import { AdminAttendanceReport } from './views/AdminAttendanceReport';
 import './styles/global.css';
@@ -154,6 +155,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MyGroup />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/users/:userId/profile"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
                 </ProtectedRoute>
               }
             />

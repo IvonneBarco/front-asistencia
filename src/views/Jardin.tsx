@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { useLeaderboard, useAttendanceScan } from "../hooks/useApi";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Card, Button } from "../components/ui";
 import { PinModal } from "../components/PinModal";
@@ -352,7 +353,7 @@ export const Jardin: React.FC = () => {
                       )}
                     </div>
                     <div className="jardin__entry-info">
-                      <h4 className="jardin__entry-name">{entry.user.name}</h4>
+                      <Link to={`/users/${entry.user.id}/profile`} className="jardin__entry-name">{entry.user.name}</Link>
                       {entry.isCurrentUser && (
                         <span className="jardin__entry-badge-text">Tú</span>
                       )}

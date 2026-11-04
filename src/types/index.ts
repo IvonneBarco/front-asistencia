@@ -34,10 +34,25 @@ export interface User {
   flowers: number;
   avatar?: string;
   role: 'user' | 'admin';
+  birthDate?: string | null;
+  firstEmausRetreatDate?: string | null;
+  phoneNumber?: string | null;
   group?: {
     id: string;
     name: string;
   } | null;
+}
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string | null;
+  identification: string | null;
+  avatar?: string | null;
+  birthDate?: string | null;
+  firstEmausRetreatDate?: string | null;
+  phoneNumber?: string | null;
+  group?: { id: string; name: string } | null;
 }
 
 // Attendance types

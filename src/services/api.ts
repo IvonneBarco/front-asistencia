@@ -35,6 +35,7 @@ import type {
   CreateSaintLoanRequest,
   SessionSaintLoansResponse,
   SaintLoanHistoryResponse,
+  UserProfile,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
@@ -187,6 +188,40 @@ class ApiClient {
     const response = await this.request<ApiResponse<User>>('/auth/me', {
       method: 'GET',
     });
+    return response.data;
+  }
+
+  async updateOwnProfile(data: {
+    name: string;
+    identification: string;
+    birthDate?: string;
+    firstEmausRetreatDate?: string;
+    phoneNumber?: string;
+  }): Promise<User> {
+    const response = await this.request<ApiResponse<User>>('/auth/me/profile', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+    return response.data;
+  }
+
+  async getUserProfile(userId: string): Promise<UserProfile> {
+    const response = await this.request<ApiResponse<UserProfile>>(
+      `/auth/users/${userId}/profile`,
+      { method: 'GET' },
+    );
+    return response.data;
+  }
+
+  async updateUserPersonalData(userId: string, data: {
+    birthDate?: string;
+    firstEmausRetreatDate?: string;
+    phoneNumber?: string;
+  }): Promise<UserProfile> {
+    const response = await this.request<ApiResponse<UserProfile>>(
+      `/admin/users/${userId}/personal-data`,
+      { method: 'PUT', body: JSON.stringify(data) },
+    );
     return response.data;
   }
 
