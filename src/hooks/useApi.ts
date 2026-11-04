@@ -15,6 +15,7 @@ export const useLeaderboard = (filters?: {
   from?: string;
   to?: string;
   groupId?: string;
+  periodId?: string;
 }) => {
   return useQuery({
     queryKey: ['leaderboard', filters],
@@ -29,6 +30,7 @@ export const useAttendanceReport = (filters?: {
   from?: string;
   to?: string;
   groupId?: string;
+  periodId?: string;
 }) => {
   return useQuery({
     queryKey: ['attendance-report', filters],
@@ -76,6 +78,14 @@ export const useSessions = () => {
   return useQuery({
     queryKey: ['sessions'],
     queryFn: () => apiClient.getSessions(),
+  });
+};
+
+export const useAttendancePeriods = () => {
+  return useQuery({
+    queryKey: ['attendance-periods'],
+    queryFn: () => apiClient.getAttendancePeriods(),
+    staleTime: 5 * 60 * 1000,
   });
 };
 
