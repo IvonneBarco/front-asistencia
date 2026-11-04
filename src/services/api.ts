@@ -28,6 +28,7 @@ import type {
   UpdateGroupRequest,
   UpdateGroupResponse,
   DeleteGroupResponse,
+  AttendancePeriod,
   UsersListResponse,
   RegisterAttendanceRequest,
   RegisterAttendanceResponse,
@@ -145,11 +146,13 @@ class ApiClient {
     from?: string;
     to?: string;
     groupId?: string;
+    periodId?: string;
   }): Promise<LeaderboardResponse> {
     const params = new URLSearchParams();
     if (filters?.from) params.set('from', filters.from);
     if (filters?.to) params.set('to', filters.to);
     if (filters?.groupId) params.set('groupId', filters.groupId);
+    if (filters?.periodId) params.set('periodId', filters.periodId);
     const query = params.toString();
     const response = await this.request<ApiResponse<LeaderboardResponse>>(
       `/leaderboard${query ? `?${query}` : ''}`,
@@ -164,11 +167,13 @@ class ApiClient {
     from?: string;
     to?: string;
     groupId?: string;
+    periodId?: string;
   }): Promise<LeaderboardResponse> {
     const params = new URLSearchParams();
     if (filters?.from) params.set('from', filters.from);
     if (filters?.to) params.set('to', filters.to);
     if (filters?.groupId) params.set('groupId', filters.groupId);
+    if (filters?.periodId) params.set('periodId', filters.periodId);
     const query = params.toString();
     const response = await this.request<ApiResponse<LeaderboardResponse>>(
       `/leaderboard/report${query ? `?${query}` : ''}`,
@@ -227,6 +232,14 @@ class ApiClient {
       {
         method: 'GET',
       }
+    );
+    return response.data;
+  }
+
+  async getAttendancePeriods(): Promise<AttendancePeriod[]> {
+    const response = await this.request<ApiResponse<AttendancePeriod[]>>(
+      '/admin/attendance-periods',
+      { method: 'GET' },
     );
     return response.data;
   }

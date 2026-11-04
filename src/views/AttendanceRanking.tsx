@@ -32,7 +32,9 @@ export const AttendanceRanking: React.FC = () => {
             <RankingPodium entries={visibleEntries} />
             <Card variant="elevated" padding="lg" className="attendance-ranking__card">
               <h2>Clasificación general</h2>
-              <p className="attendance-ranking__hint">{data.eligibleSessions} encuentros considerados</p>
+              <p className="attendance-ranking__hint">
+                Período {data.period?.name ?? 'actual'} · {data.eligibleSessions} encuentros considerados
+              </p>
               <RankingProgressList entries={visibleEntries} />
             </Card>
             {visibleCurrentUser && (
