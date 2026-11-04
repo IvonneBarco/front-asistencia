@@ -1,5 +1,6 @@
 import React from 'react';
 import type { LeaderboardEntry } from '../types';
+import { Link } from 'react-router-dom';
 import './Ranking.css';
 
 interface RankingProgressListProps {
@@ -15,7 +16,7 @@ export const RankingProgressList: React.FC<RankingProgressListProps> = ({ entrie
       >
         <span className="ranking-list__rank">#{entry.rank}</span>
         <div className="ranking-list__identity">
-          <strong>{entry.user.name}</strong>
+          <Link to={`/users/${entry.user.id}/profile`}><strong>{entry.user.name}</strong></Link>
           {entry.user.group && <span>{entry.user.group.name}</span>}
           <div className="ranking-list__track" aria-label={`${entry.participation ?? entry.attendances}%`}>
             <span style={{ width: `${Math.min(entry.participation ?? 0, 100)}%` }} />

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { LeaderboardEntry } from '../types';
+import { Link } from 'react-router-dom';
 import './Ranking.css';
 
 interface RankingPodiumProps {
@@ -29,12 +30,12 @@ export const RankingPodium: React.FC<RankingPodiumProps> = ({ entries }) => {
           <div key={place.rank} className={`ranking-podium__place ${place.className}`}>
             <span className="ranking-podium__medal" aria-hidden="true">{place.medal}</span>
             <div className="ranking-podium__names">
-              <strong>{representative.user.name}</strong>
+              <Link to={`/users/${representative.user.id}/profile`}><strong>{representative.user.name}</strong></Link>
               {place.winners.length > 1 && (
                 <details className="ranking-podium__ties">
                   <summary>{place.winners.length} participantes empatadas</summary>
                   <ul>
-                    {place.winners.map((entry) => <li key={entry.user.id}>{entry.user.name}</li>)}
+                    {place.winners.map((entry) => <li key={entry.user.id}><Link to={`/users/${entry.user.id}/profile`}>{entry.user.name}</Link></li>)}
                   </ul>
                 </details>
               )}
