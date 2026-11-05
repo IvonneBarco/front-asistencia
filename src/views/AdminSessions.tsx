@@ -3,6 +3,7 @@ import {
   useSessions,
   useCreateSession,
   useDeactivateSession,
+  useAttendancePeriods,
 } from '../hooks/useApi';
 import { SessionForm } from '../components/SessionForm';
 import { QRModal } from '../components/QRModal';
@@ -15,6 +16,7 @@ export const AdminSessions: React.FC = () => {
   const { data: sessions, isLoading, error } = useSessions();
   const createSession = useCreateSession();
   const deactivateSession = useDeactivateSession();
+  const { data: periods = [] } = useAttendancePeriods();
 
   const [qrModal, setQrModal] = useState<{
     isOpen: boolean;
@@ -101,6 +103,7 @@ export const AdminSessions: React.FC = () => {
           <SessionForm
             onSubmit={handleCreateSession}
             isLoading={createSession.isPending}
+            periods={periods}
           />
         </div>
 
@@ -169,6 +172,10 @@ export const AdminSessions: React.FC = () => {
                         Fin:
                       </span>
                       <span>{formatDateTime(session.endsAt)}</span>
+                    </div>
+                    <div className="admin-sessions__item-date">
+                      <span className="admin-sessions__item-date-label">Período:</span>
+                      <span>{session.period?.name ?? 'Sin período'}</span>
                     </div>
                   </div>
 

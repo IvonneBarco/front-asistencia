@@ -34,10 +34,25 @@ export interface User {
   flowers: number;
   avatar?: string;
   role: 'user' | 'admin';
+  birthDate?: string | null;
+  firstEmausRetreatDate?: string | null;
+  phoneNumber?: string | null;
   group?: {
     id: string;
     name: string;
   } | null;
+}
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string | null;
+  identification: string | null;
+  avatar?: string | null;
+  birthDate?: string | null;
+  firstEmausRetreatDate?: string | null;
+  phoneNumber?: string | null;
+  group?: { id: string; name: string } | null;
 }
 
 // Attendance types
@@ -80,12 +95,21 @@ export interface LeaderboardResponse {
   currentUser?: LeaderboardEntry;
   eligibleSessions: number;
   totalAttendances: number;
+  period?: AttendancePeriod;
   sessions: Array<{
     id: string;
     name: string;
     startsAt: string;
     attendances: number;
   }>;
+}
+
+export interface AttendancePeriod {
+  id: string;
+  name: string;
+  startsAt: string;
+  endsAt: string;
+  isActive: boolean;
 }
 
 // Session types
@@ -98,12 +122,14 @@ export interface Session {
   isActive: boolean;
   sessionPin: string;
   createdAt?: string;
+  period?: Pick<AttendancePeriod, 'id' | 'name'>;
 }
 
 export interface CreateSessionRequest {
   name: string;
   startsAt: string;
   endsAt: string;
+  periodId: string;
 }
 
 export interface CreateSessionResponse extends Session {

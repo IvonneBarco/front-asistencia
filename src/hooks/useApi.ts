@@ -15,6 +15,7 @@ export const useLeaderboard = (filters?: {
   from?: string;
   to?: string;
   groupId?: string;
+  periodId?: string;
 }) => {
   return useQuery({
     queryKey: ['leaderboard', filters],
@@ -29,6 +30,7 @@ export const useAttendanceReport = (filters?: {
   from?: string;
   to?: string;
   groupId?: string;
+  periodId?: string;
 }) => {
   return useQuery({
     queryKey: ['attendance-report', filters],
@@ -59,6 +61,43 @@ export const useCurrentUser = () => {
   });
 };
 
+export const useUpdateOwnProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: {
+      name: string;
+      identification: string;
+      birthDate?: string;
+      firstEmausRetreatDate?: string;
+      phoneNumber?: string;
+    }) => apiClient.updateOwnProfile(data),
+    onSuccess: (updatedUser) => {
+      queryClient.setQueryData(['user'], updatedUser);
+    },
+  });
+};
+
+export const useUserProfile = (userId: string | undefined) => {
+  return useQuery({
+    queryKey: ['user-profile', userId],
+    queryFn: () => apiClient.getUserProfile(userId!),
+    enabled: !!userId,
+  });
+};
+
+export const useUpdateUserPersonalData = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ userId, data }: { userId: string; data: { birthDate?: string; firstEmausRetreatDate?: string; phoneNumber?: string } }) =>
+      apiClient.updateUserPersonalData(userId, data),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['user-profile', variables.userId] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    },
+  });
+};
+
 export const useUploadOwnPhoto = () => {
   const queryClient = useQueryClient();
 
@@ -76,6 +115,14 @@ export const useSessions = () => {
   return useQuery({
     queryKey: ['sessions'],
     queryFn: () => apiClient.getSessions(),
+  });
+};
+
+export const useAttendancePeriods = () => {
+  return useQuery({
+    queryKey: ['attendance-periods'],
+    queryFn: () => apiClient.getAttendancePeriods(),
+    staleTime: 5 * 60 * 1000,
   });
 };
 

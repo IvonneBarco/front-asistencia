@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { Button, Card } from './ui';
-import type { CreateSessionRequest } from '../types';
+import type { AttendancePeriod, CreateSessionRequest } from '../types';
 import './SessionForm.css';
 
 interface SessionFormProps {
   onSubmit: (data: CreateSessionRequest) => Promise<void>;
   isLoading?: boolean;
+  periods: AttendancePeriod[];
 }
 
-export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, isLoading }) => {
+export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, isLoading, periods }) => {
+  const activePeriod = periods.find((period) => period.isActive) ?? periods[0];
+  const [periodId, setPeriodId] = useState('');
   const [name, setName] = useState('');
   const [startDate, setStartDate] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -67,6 +70,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, isLoading })
       name: name.trim(),
       startsAt: startsAt.toISOString(),
       endsAt: endsAt.toISOString(),
+      periodId: periodId || activePeriod?.id || '',
     };
 
     try {
@@ -88,6 +92,21 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, isLoading })
     <Card variant="outlined" padding="lg">
       <form onSubmit={handleSubmit} className="session-form">
         <h3 className="session-form__title">Nueva Sesión</h3>
+        <div className="session-form__field">
+          <label htmlFor="periodId" className="session-form__label">Período de asistencia</label>
+          <select
+            id="periodId"
+            value={periodId || activePeriod?.id || ''}
+            onChange={(e) => setPeriodId(e.target.value)}
+            className="session-form__input"
+            disabled={isLoading || periods.length === 0}
+            required
+          >
+            {periods.map((period) => (
+              <option key={period.id} value={period.id}>{period.name}{period.isActive ? ' (activo)' : ''}</option>
+            ))}
+          </select>
+        </div>
 
         <div className="session-form__field">
           <label htmlFor="name" className="session-form__label">

@@ -8,6 +8,7 @@ import { GroupAssignModal } from '../components/GroupAssignModal';
 import type { BulkUserInput, CSVImportResponse, User } from '../types';
 import { resolveAssetUrl } from '../services/api';
 import { normalizeText } from '../utils/text';
+import { Link } from 'react-router-dom';
 import './AdminUsers.css';
 
 type TabType = 'form' | 'csv' | 'list';
@@ -228,7 +229,9 @@ export const AdminUsers: React.FC = () => {
                       </div>
                       <div className="admin-users__user-info">
                         <div>
-                          <p className="admin-users__user-name">{user.name}</p>
+                          <p className="admin-users__user-name">
+                            <Link to={`/users/${user.id}/profile`}>{user.name}</Link>
+                          </p>
                           <p className="admin-users__user-details">
                             ID: {user.identification} • {user.email}
                           </p>
